@@ -1,0 +1,44 @@
+/* Complementary styles for the unified design system */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced focus styles consistent with design system */
+button:focus,
+a:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Responsive typography adjustments */
+@media (max-width: 768px) {
+  .text-heading-1 {
+    font-size: 2.5rem;
+  }
+
+  .text-heading-2 {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-heading-1 {
+    font-size: 2rem;
+  }
+
+  .text-heading-2 {
+    font-size: 1.75rem;
+  }
+}
