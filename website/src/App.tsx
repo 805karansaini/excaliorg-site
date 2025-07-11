@@ -101,9 +101,9 @@ function App() {
 
           {/* Key Benefits */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 max-w-6xl mx-auto">
-            <div className="card animate-fade-in-up animate-delay-200">
+            <div className="card animate-fade-in-up animate-delay-200 mobile-tap-feedback">
               <div className="flex items-center space-x-3">
-                <div className="text-2xl">💾</div>
+                <div className="text-2xl feature-icon">💾</div>
                 <div className="text-left">
                   <h3 className="text-heading-3">Unlimited Storage</h3>
                   <p className="text-body-small">Never lose your work again</p>
@@ -111,9 +111,9 @@ function App() {
               </div>
             </div>
 
-            <div className="card animate-fade-in-up animate-delay-300">
+            <div className="card animate-fade-in-up animate-delay-300 mobile-tap-feedback">
               <div className="flex items-center space-x-3">
-                <div className="text-2xl">🗂️</div>
+                <div className="text-2xl feature-icon">🗂️</div>
                 <div className="text-left">
                   <h3 className="text-heading-3">Smart Organization</h3>
                   <p className="text-body-small">Group drawings into color-coded projects</p>
@@ -121,9 +121,9 @@ function App() {
               </div>
             </div>
 
-            <div className="card animate-fade-in-up animate-delay-400">
+            <div className="card animate-fade-in-up animate-delay-400 mobile-tap-feedback">
               <div className="flex items-center space-x-3">
-                <div className="text-2xl">🔍</div>
+                <div className="text-2xl feature-icon">🔍</div>
                 <div className="text-left">
                   <h3 className="text-heading-3">Instant Search</h3>
                   <p className="text-body-small">Find any drawing in seconds</p>
@@ -131,9 +131,9 @@ function App() {
               </div>
             </div>
 
-            <div className="card animate-fade-in-up animate-delay-500">
+            <div className="card animate-fade-in-up animate-delay-500 mobile-tap-feedback">
               <div className="flex items-center space-x-3">
-                <div className="text-2xl">🔐</div>
+                <div className="text-2xl feature-icon">🔐</div>
                 <div className="text-left">
                   <h3 className="text-heading-3">100% Private</h3>
                   <p className="text-body-small">All data stays on your device</p>
@@ -141,9 +141,9 @@ function App() {
               </div>
             </div>
 
-            <div className="card animate-fade-in-up animate-delay-100">
+            <div className="card animate-fade-in-up animate-delay-100 mobile-tap-feedback">
               <div className="flex items-center space-x-3">
-                <div className="text-2xl">📱</div>
+                <div className="text-2xl feature-icon">📱</div>
                 <div className="text-left">
                   <h3 className="text-heading-3">Works Offline</h3>
                   <p className="text-body-small">No internet required</p>
@@ -151,9 +151,9 @@ function App() {
               </div>
             </div>
 
-            <div className="card animate-fade-in-up animate-delay-200">
+            <div className="card animate-fade-in-up animate-delay-200 mobile-tap-feedback">
               <div className="flex items-center space-x-3">
-                <div className="text-2xl">⚡</div>
+                <div className="text-2xl feature-icon">⚡</div>
                 <div className="text-left">
                   <h3 className="text-heading-3">High Performance</h3>
                   <p className="text-body-small">Optimized for speed and efficiency</p>
@@ -166,16 +166,16 @@ function App() {
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <button 
               onClick={() => handleCTAClick('Add to Chrome - Free', 'hero')}
-              className="btn-primary px-8 py-4 rounded-lg text-lg animate-fade-in-up animate-delay-300 flex items-center justify-center space-x-2"
+              className="btn-primary px-8 py-4 rounded-lg text-lg animate-fade-in-up animate-delay-300 flex items-center justify-center space-x-2 mobile-tap-feedback"
             >
               <span>Add to Chrome - Free</span>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 cta-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
             <button 
               onClick={() => handleCTAClick('Try It Free', 'hero')}
-              className="btn-secondary px-8 py-4 rounded-lg text-lg animate-fade-in-up animate-delay-400"
+              className="btn-secondary px-8 py-4 rounded-lg text-lg animate-fade-in-up animate-delay-400 mobile-tap-feedback"
             >
               Try It Free
             </button>
@@ -359,7 +359,7 @@ function App() {
             <div className="space-y-8">
               {/* Step 1 */}
               <div className="flex items-start space-x-6 animate-fade-in-up animate-delay-100">
-                <div className="flex-shrink-0 w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
+                <div className="flex-shrink-0 w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-lg step-number" style={{ backgroundColor: 'var(--color-primary)' }}>
                   1
                 </div>
                 <div>
@@ -374,7 +374,7 @@ function App() {
 
               {/* Step 2 */}
               <div className="flex items-start space-x-6 animate-fade-in-up animate-delay-200">
-                <div className="flex-shrink-0 w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
+                <div className="flex-shrink-0 w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-lg step-number" style={{ backgroundColor: 'var(--color-primary)' }}>
                   2
                 </div>
                 <div>
@@ -389,7 +389,7 @@ function App() {
 
               {/* Step 3 */}
               <div className="flex items-start space-x-6 animate-fade-in-up animate-delay-300">
-                <div className="flex-shrink-0 w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
+                <div className="flex-shrink-0 w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-lg step-number" style={{ backgroundColor: 'var(--color-primary)' }}>
                   3
                 </div>
                 <div>
@@ -404,7 +404,7 @@ function App() {
 
               {/* Step 4 */}
               <div className="flex items-start space-x-6 animate-fade-in-up animate-delay-400">
-                <div className="flex-shrink-0 w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
+                <div className="flex-shrink-0 w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-lg step-number" style={{ backgroundColor: 'var(--color-primary)' }}>
                   4
                 </div>
                 <div>
@@ -419,7 +419,7 @@ function App() {
 
               {/* Step 5 */}
               <div className="flex items-start space-x-6 animate-fade-in-up animate-delay-500">
-                <div className="flex-shrink-0 w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
+                <div className="flex-shrink-0 w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-lg step-number" style={{ backgroundColor: 'var(--color-primary)' }}>
                   5
                 </div>
                 <div>
@@ -588,7 +588,7 @@ function App() {
                       {faq.question}
                     </span>
                     <svg
-                      className={`w-5 h-5 flex-shrink-0 transition-all duration-300 ease-out ${openFAQ === index ? 'rotate-180 text-primary' : 'text-text-muted group-hover:text-primary'}`}
+                      className={`w-5 h-5 flex-shrink-0 faq-chevron transition-all duration-300 ease-out ${openFAQ === index ? 'rotate-180 text-primary' : 'text-text-muted group-hover:text-primary'}`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -664,9 +664,9 @@ function App() {
               © 2024 Excali Organizer. Open source under MIT license.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-body-small hover:text-primary transition-colors">Privacy Policy</a>
-              <a href="#" className="text-body-small hover:text-primary transition-colors">Terms of Service</a>
-              <a href="#" className="text-body-small hover:text-primary transition-colors">Open Source</a>
+              <a href="#" className="text-body-small hover:text-primary transition-colors link-hover">Privacy Policy</a>
+              <a href="#" className="text-body-small hover:text-primary transition-colors link-hover">Terms of Service</a>
+              <a href="#" className="text-body-small hover:text-primary transition-colors link-hover">Open Source</a>
             </div>
           </div>
         </div>
