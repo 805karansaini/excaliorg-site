@@ -46,12 +46,12 @@
 
   /* Section Backgrounds - Intentional content hierarchy */
   --color-hero: #ffffff;
-  --color-features: #f8fafc;
+  --color-features: #fafafa;
   --color-workflow: #f1f5f9;
-  --color-cta: #f8fafc;
+  --color-cta: #fafafa;
   --color-showcase: #ffffff;
   --color-faq: #f1f5f9;
-  --color-footer: #f8fafc;
+  --color-footer: #fafafa;
 
   /* Shadow System */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -172,12 +172,12 @@
   --color-warning: #d97706;
   --color-error: #dc2626;
   --color-hero: #ffffff;
-  --color-features: #f8fafc;
+  --color-features: #fafafa;
   --color-workflow: #f1f5f9;
-  --color-cta: #f8fafc;
+  --color-cta: #fafafa;
   --color-showcase: #ffffff;
   --color-faq: #f1f5f9;
-  --color-footer: #f8fafc;
+  --color-footer: #fafafa;
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -295,6 +295,16 @@ body {
   border-color: var(--color-border-hover);
 }
 
+/* Enhanced card borders for light mode */
+.light .card {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.light .card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
 .card-feature {
   background: var(--color-card);
   border: 1px solid var(--color-border);
@@ -321,14 +331,37 @@ body {
   box-shadow: var(--shadow-xl);
 }
 
+/* Enhanced feature card borders for light mode */
+.light .card-feature {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.light .card-feature:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
 /* Section Spacing */
 .section {
   padding: 6rem 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
 .section-compact {
   padding: 4rem 0;
+}
+
+/* Section dividers for light mode */
+.light .section:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.06), transparent);
 }
 
 /* FAQ Component Styles - Clean & Elegant */
@@ -367,6 +400,71 @@ body {
 
 .text-primary {
   color: var(--color-primary);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .text-heading-1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+
+  .text-heading-2 {
+    font-size: 2rem;
+    line-height: 1.3;
+  }
+
+  .text-heading-3 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  .text-body-large {
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  .section {
+    padding: 4rem 0;
+  }
+
+  .section-compact {
+    padding: 3rem 0;
+  }
+
+  .card, .card-feature {
+    padding: 1.5rem;
+  }
+
+  /* Mobile card hover effects - use tap feedback instead */
+  .card:active, .card-feature:active {
+    transform: scale(0.98);
+  }
+
+  /* Mobile safe areas */
+  .mobile-safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Thumb-friendly touch targets */
+  .btn-primary, .btn-secondary {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* FAQ improvements for mobile */
+  .faq-item button {
+    padding: 1rem;
+  }
+
+  /* Mobile grid improvements */
+  .grid-mobile-1 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-mobile-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* Animations */

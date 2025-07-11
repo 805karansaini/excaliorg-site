@@ -1,11 +1,18 @@
-import { useTheme } from '../contexts/ThemeContext'
+import { useTheme } from '../hooks/useTheme'
+import { trackThemeToggle } from '../utils/analytics'
 
 export const ThemeToggle = () => {
     const { theme, toggleTheme } = useTheme()
 
+    const handleToggle = () => {
+        const newTheme = theme === 'light' ? 'dark' : 'light'
+        toggleTheme()
+        trackThemeToggle(newTheme)
+    }
+
     return (
         <button
-            onClick={toggleTheme}
+            onClick={handleToggle}
             className="relative p-3 rounded-full bg-surface border border-border hover:bg-accent transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 group"
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
             title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}

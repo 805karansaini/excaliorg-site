@@ -1,12 +1,36 @@
 import { useState } from 'react'
 import './App.css'
 import { ThemeToggle } from './components/ThemeToggle'
+import { StickyNav } from './components/StickyNav'
+import { MobileStickyBottom } from './components/MobileStickyBottom'
+import { useStickyNav } from './hooks/useStickyNav'
+import { useMobileStickyBottom } from './hooks/useMobileStickyBottom'
+import { TableOfContents } from './components/TableOfContents'
+import { trackFAQInteraction, trackCTAClick, trackStoreRedirect } from './utils/analytics'
+import { useScrollTracking } from './hooks/useScrollTracking'
 
 function App() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null)
+  const { isVisible: isStickyNavVisible } = useStickyNav()
+  const { isVisible: isMobileStickyVisible } = useMobileStickyBottom()
+  
+  // Enable scroll tracking
+  useScrollTracking()
 
   const toggleFAQ = (index: number) => {
+    const isOpening = openFAQ !== index
     setOpenFAQ(openFAQ === index ? null : index)
+    
+    if (faqs[index]) {
+      trackFAQInteraction(faqs[index].question, isOpening)
+    }
+  }
+
+  const handleCTAClick = (buttonText: string, location: string) => {
+    trackCTAClick(buttonText, location)
+    trackStoreRedirect(location)
+    // TODO: Add actual Chrome Web Store redirect logic
+    console.log('Redirecting to Chrome Web Store...')
   }
 
   const faqs = [
@@ -46,13 +70,20 @@ function App() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--color-background)' }}>
+      {/* Fixed Navigation Elements */}
+      <StickyNav isVisible={isStickyNavVisible} />
+      <MobileStickyBottom isVisible={isMobileStickyVisible} />
+      
       {/* Theme Toggle - Fixed position */}
       <div className="fixed top-6 right-6 z-50">
         <ThemeToggle />
       </div>
+      
+      {/* Table of Contents */}
+      <TableOfContents />
 
       {/* Hero Section */}
-      <section className="section relative overflow-hidden" style={{ backgroundColor: 'var(--color-hero)' }}>
+      <section id="hero" className="section relative overflow-hidden" style={{ backgroundColor: 'var(--color-hero)' }}>
         {/* Subtle floating background elements */}
         <div className="absolute top-10 left-10 w-72 h-72 bg-primary/5 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-pulse"></div>
         <div className="absolute top-20 right-10 w-72 h-72 bg-primary/10 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-pulse" style={{ animationDelay: '2s' }}></div>
@@ -133,10 +164,19 @@ function App() {
 
           {/* CTA Button */}
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="btn-primary px-8 py-4 rounded-lg text-lg animate-fade-in-up animate-delay-300">
-              Get Excali Organizer
+            <button 
+              onClick={() => handleCTAClick('Add to Chrome - Free', 'hero')}
+              className="btn-primary px-8 py-4 rounded-lg text-lg animate-fade-in-up animate-delay-300 flex items-center justify-center space-x-2"
+            >
+              <span>Add to Chrome - Free</span>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
-            <button className="btn-secondary px-8 py-4 rounded-lg text-lg animate-fade-in-up animate-delay-400">
+            <button 
+              onClick={() => handleCTAClick('Try It Free', 'hero')}
+              className="btn-secondary px-8 py-4 rounded-lg text-lg animate-fade-in-up animate-delay-400"
+            >
               Try It Free
             </button>
           </div>
@@ -144,7 +184,7 @@ function App() {
       </section>
 
       {/* Core Features Section */}
-      <section className="section" style={{ backgroundColor: 'var(--color-features)' }}>
+      <section id="features" className="section" style={{ backgroundColor: 'var(--color-features)' }}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-heading-2 mb-4 animate-fade-in-up">
@@ -304,7 +344,7 @@ function App() {
       </section>
 
       {/* How It Works Section */}
-      <section className="section" style={{ backgroundColor: 'var(--color-workflow)' }}>
+      <section id="workflow" className="section" style={{ backgroundColor: 'var(--color-workflow)' }}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-heading-2 mb-4 animate-fade-in-up">
@@ -406,7 +446,7 @@ function App() {
       </section>
 
       {/* Installation Section */}
-      <section className="section relative overflow-hidden" style={{ backgroundColor: 'var(--color-cta)' }}>
+      <section id="installation" className="section relative overflow-hidden" style={{ backgroundColor: 'var(--color-cta)' }}>
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 left-0 w-full h-full">
@@ -426,13 +466,19 @@ function App() {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-6 mb-12">
-            <button className="btn-primary px-8 py-4 rounded-lg text-lg flex items-center justify-center space-x-2 animate-fade-in-up animate-delay-200">
+            <button 
+              onClick={() => handleCTAClick('Install from Chrome Web Store', 'installation')}
+              className="btn-primary px-8 py-4 rounded-lg text-lg flex items-center justify-center space-x-2 animate-fade-in-up animate-delay-200"
+            >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
               <span>Install from Chrome Web Store</span>
             </button>
-            <button className="btn-secondary px-8 py-4 rounded-lg text-lg animate-fade-in-up animate-delay-300">
+            <button 
+              onClick={() => handleCTAClick('Try Manual Install', 'installation')}
+              className="btn-secondary px-8 py-4 rounded-lg text-lg animate-fade-in-up animate-delay-300"
+            >
               Try Manual Install
             </button>
           </div>
@@ -455,7 +501,7 @@ function App() {
       </section>
 
       {/* Use Cases Section */}
-      <section className="section" style={{ backgroundColor: 'var(--color-showcase)' }}>
+      <section id="use-cases" className="section" style={{ backgroundColor: 'var(--color-showcase)' }}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-heading-2 mb-4 animate-fade-in-up">
@@ -519,7 +565,7 @@ function App() {
       </section>
 
       {/* FAQ Section */}
-      <section className="section" style={{ backgroundColor: 'var(--color-faq)' }}>
+      <section id="faq" className="section" style={{ backgroundColor: 'var(--color-faq)' }}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-heading-2 mb-4 animate-fade-in-up">
@@ -575,10 +621,16 @@ function App() {
                 Completely free, privacy-focused, and open source.
               </p>
               <div className="flex space-x-4">
-                <button className="btn-primary px-6 py-2 rounded-lg">
+                <button 
+                  onClick={() => handleCTAClick('Get Started', 'footer')}
+                  className="btn-primary px-6 py-2 rounded-lg"
+                >
                   Get Started
                 </button>
-                <button className="btn-secondary px-6 py-2 rounded-lg">
+                <button 
+                  onClick={() => handleCTAClick('GitHub', 'footer')}
+                  className="btn-secondary px-6 py-2 rounded-lg"
+                >
                   GitHub
                 </button>
               </div>
