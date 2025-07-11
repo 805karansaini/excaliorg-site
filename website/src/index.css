@@ -1122,6 +1122,37 @@ body {
   width: 100%;
 }
 
+/* Sticky Navigation Enhancements */
+.sticky-nav-backdrop {
+  background: linear-gradient(
+    180deg,
+    var(--color-background) 0%,
+    var(--color-background)/90  100%
+  );
+}
+
+.sticky-nav-logo-hover {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sticky-nav-logo-hover:hover {
+  transform: translateY(-1px);
+}
+
+/* Enhanced backdrop blur support */
+@supports (backdrop-filter: blur(16px)) {
+  .sticky-nav-blur {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+}
+
+@supports not (backdrop-filter: blur(16px)) {
+  .sticky-nav-blur {
+    background-color: var(--color-background);
+  }
+}
+
 /* Mobile-specific enhancements */
 @media (max-width: 768px) {
   .mobile-tap-feedback {
@@ -1143,5 +1174,15 @@ body {
   .card:active,
   .card-feature:active {
     transform: scale(0.98);
+  }
+  
+  /* Sticky nav mobile optimizations */
+  .sticky-nav-mobile {
+    height: 60px;
+  }
+  
+  .sticky-nav-mobile .btn-primary {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
   }
 }
