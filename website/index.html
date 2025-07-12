@@ -2,7 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    
+    <!-- Web App Manifest and PWA Icons -->
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="msapplication-TileColor" content="#6366f1" />
+    <meta name="msapplication-TileImage" content="/icon-192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Excali Organizer - File Manager for Excalidraw</title>
     <meta name="description" content="Transform Excalidraw with professional organization tools. Unlimited storage, advanced search, project management. Free Chrome extension." />
@@ -13,11 +27,15 @@
     <meta property="og:description" content="Transform Excalidraw with professional organization tools. Unlimited storage, advanced search, project management. Free Chrome extension." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://excali.org" />
+    <meta property="og:image" content="https://excali.org/icon-512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
     
     <!-- Twitter Card tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Excali Organizer - File Manager for Excalidraw" />
     <meta name="twitter:description" content="Transform Excalidraw with professional organization tools. Unlimited storage, advanced search, project management. Free Chrome extension." />
+    <meta name="twitter:image" content="https://excali.org/icon-512.png" />
     
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RY42DV6SGY"></script>
@@ -32,6 +50,21 @@
     </script>
   </head>
   <body>
+    <script>
+      // Apply theme class immediately to prevent flash
+      (function() {
+        const stored = localStorage.getItem('excali-organizer-theme');
+        let theme = 'light'; // Default to light for first-time visitors
+        
+        if (stored && (stored === 'light' || stored === 'dark')) {
+          theme = stored;
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          theme = 'dark';
+        }
+        
+        document.documentElement.classList.add(theme);
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

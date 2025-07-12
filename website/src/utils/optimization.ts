@@ -15,7 +15,7 @@ export class PerformanceOptimizer {
   private config: OptimizationConfig;
   private imageObserver: IntersectionObserver | null = null;
   private linkObserver: IntersectionObserver | null = null;
-  private resourceCache: Map<string, any> = new Map();
+  private resourceCache: Map<string, unknown> = new Map();
 
   private constructor(config: Partial<OptimizationConfig> = {}) {
     this.config = {
@@ -61,13 +61,13 @@ export class PerformanceOptimizer {
           if (entry.isIntersecting) {
             const img = entry.target as HTMLImageElement;
             const src = img.dataset.src;
-            
+
             if (src) {
               img.src = src;
               img.classList.add('loaded');
               img.removeAttribute('data-src');
               this.imageObserver?.unobserve(img);
-              
+
               trackPerformance('lazy_load_image', performance.now(), 'optimization');
             }
           }
@@ -96,7 +96,7 @@ export class PerformanceOptimizer {
           if (entry.isIntersecting) {
             const link = entry.target as HTMLAnchorElement;
             const href = link.href;
-            
+
             if (href && !link.dataset.prefetched) {
               this.prefetchResource(href);
               link.dataset.prefetched = 'true';
@@ -123,7 +123,7 @@ export class PerformanceOptimizer {
     link.rel = 'prefetch';
     link.href = url;
     document.head.appendChild(link);
-    
+
     trackPerformance('prefetch_resource', performance.now(), 'optimization');
   }
 
@@ -134,27 +134,27 @@ export class PerformanceOptimizer {
     if (!this.config.cacheResources) return;
 
     // Cache frequently accessed resources
-    // const cacheableResources = ['fetch', 'XMLHttpRequest']; // Reserved for future use
+    // Reserved for future caching implementation
 
     // Override fetch to add caching
     const originalFetch = window.fetch;
-    window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+    window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
       const url = input.toString();
-      
+
       // Check cache first
       if (this.resourceCache.has(url)) {
-        return Promise.resolve(this.resourceCache.get(url));
+        return Promise.resolve(this.resourceCache.get(url) as Response);
       }
 
       try {
         const response = await originalFetch(input, init);
         const clonedResponse = response.clone();
-        
+
         // Cache successful responses
         if (response.ok) {
           this.resourceCache.set(url, clonedResponse);
         }
-        
+
         return response;
       } catch (error) {
         trackError('fetch_error', `Failed to fetch ${url}`, error instanceof Error ? error.message : 'Unknown error');
@@ -168,7 +168,7 @@ export class PerformanceOptimizer {
    */
   private optimizeImages(): void {
     const images = document.querySelectorAll('img');
-    
+
     images.forEach((img) => {
       // Add loading="lazy" if not already present
       if (!img.hasAttribute('loading')) {
@@ -235,7 +235,7 @@ export class PerformanceOptimizer {
     // Remove unused CSS classes (basic implementation)
     const usedClasses = new Set<string>();
     const elements = document.querySelectorAll('*');
-    
+
     elements.forEach((element) => {
       element.classList.forEach((className) => {
         usedClasses.add(className);
@@ -248,7 +248,7 @@ export class PerformanceOptimizer {
       if (sheet instanceof HTMLStyleElement && sheet.textContent) {
         const cssText = sheet.textContent;
         const classMatches = cssText.match(/\.[a-zA-Z0-9_-]+/g);
-        
+
         if (classMatches) {
           classMatches.forEach((match) => {
             const className = match.slice(1);
@@ -269,7 +269,7 @@ export class PerformanceOptimizer {
     window.addEventListener('load', () => {
       setTimeout(() => {
         const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-        
+
         if (navigation) {
           const metrics = {
             dns: navigation.domainLookupEnd - navigation.domainLookupStart,
@@ -315,7 +315,7 @@ export class PerformanceOptimizer {
       options?: boolean | AddEventListenerOptions
     ) {
       const passiveEvents = ['scroll', 'touchstart', 'touchmove', 'wheel'];
-      
+
       if (passiveEvents.includes(type)) {
         if (typeof options === 'boolean') {
           options = { passive: true, capture: options };
@@ -323,7 +323,7 @@ export class PerformanceOptimizer {
           options = { passive: true, ...options };
         }
       }
-      
+
       return originalAddEventListener.call(this, type, listener, options);
     };
   }
@@ -355,9 +355,9 @@ export class PerformanceOptimizer {
   public enableCompression(): void {
     // This would typically be handled by the server
     // but we can at least verify that gzip is supported
-    const supportsGzip = 'CompressionStream' in window;
-    const supportsBrotli = 'CompressionStream' in window && 'brotli' in CompressionStream.prototype;
-    
+    const supportsGzip = 'CompressionStream' in window
+    const supportsBrotli = 'CompressionStream' in window && 'brotli' in CompressionStream.prototype
+
     trackPerformance('compression_gzip_support', supportsGzip ? 1 : 0, 'feature_detection');
     trackPerformance('compression_brotli_support', supportsBrotli ? 1 : 0, 'feature_detection');
   }
@@ -367,8 +367,7 @@ export class PerformanceOptimizer {
    */
   public optimizeMemory(): void {
     // Clean up unused objects periodically
-    let cleanupInterval: number;
-    
+
     const performCleanup = () => {
       // Clear old cache entries
       if (this.resourceCache.size > 50) {
@@ -376,14 +375,14 @@ export class PerformanceOptimizer {
         const toRemove = entries.slice(0, 25);
         toRemove.forEach(([key]) => this.resourceCache.delete(key));
       }
-      
+
       // Force garbage collection if available
-      if ('gc' in window) {
-        (window as any).gc();
+      if ('gc' in window && typeof (window as Window & { gc?: () => void }).gc === 'function') {
+        (window as Window & { gc: () => void }).gc();
       }
     };
 
-    cleanupInterval = window.setInterval(performCleanup, 300000); // 5 minutes
+    const cleanupInterval = window.setInterval(performCleanup, 300000); // 5 minutes
 
     // Cleanup on page unload
     window.addEventListener('beforeunload', () => {
@@ -397,30 +396,30 @@ export class PerformanceOptimizer {
    */
   public getOptimizationRecommendations(): string[] {
     const recommendations: string[] = [];
-    
+
     // Check for optimization opportunities
     const images = document.querySelectorAll('img');
     const scripts = document.querySelectorAll('script');
     const styles = document.querySelectorAll('link[rel="stylesheet"]');
-    
+
     if (images.length > 10) {
       recommendations.push('Consider implementing image lazy loading and compression');
     }
-    
+
     if (scripts.length > 5) {
       recommendations.push('Consider bundling and minifying JavaScript files');
     }
-    
+
     if (styles.length > 3) {
       recommendations.push('Consider combining CSS files to reduce HTTP requests');
     }
-    
+
     // Check for render-blocking resources
     const renderBlocking = document.querySelectorAll('script:not([async]):not([defer]), link[rel="stylesheet"]:not([media])');
     if (renderBlocking.length > 0) {
       recommendations.push('Consider making non-critical resources async or deferred');
     }
-    
+
     return recommendations;
   }
 

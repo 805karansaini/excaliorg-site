@@ -125,7 +125,7 @@ export class AnimationManager {
 
     const rippleConfig = { ...defaultConfig, ...config };
     const rect = element.getBoundingClientRect();
-    
+
     let x: number, y: number;
     if (event instanceof MouseEvent) {
       x = event.clientX - rect.left;
@@ -232,7 +232,7 @@ export class AnimationManager {
    */
   public createParticles(container: HTMLElement, count: number = 20): void {
     const particles: HTMLElement[] = [];
-    
+
     for (let i = 0; i < count; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
@@ -241,7 +241,7 @@ export class AnimationManager {
         animation-delay: ${Math.random() * 4}s;
         animation-duration: ${4 + Math.random() * 2}s;
       `;
-      
+
       container.appendChild(particle);
       particles.push(particle);
     }
@@ -288,11 +288,11 @@ export class AnimationManager {
     const updateCounter = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      
+
       // Easing function for smooth animation
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       const currentValue = Math.round(startValue + difference * easeOutQuart);
-      
+
       element.textContent = currentValue.toLocaleString();
 
       if (progress < 1) {
@@ -313,10 +313,10 @@ export class AnimationManager {
     duration: number = 1000,
     offset: number = 0
   ): void {
-    const targetElement = typeof target === 'string' 
-      ? document.querySelector(target) 
+    const targetElement = typeof target === 'string'
+      ? document.querySelector(target)
       : target;
-    
+
     if (!targetElement) return;
 
     const startPosition = window.pageYOffset;
@@ -327,7 +327,7 @@ export class AnimationManager {
     const animateScroll = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      
+
       // Easing function
       const easeInOutCubic = progress < 0.5
         ? 4 * progress * progress * progress
@@ -352,12 +352,12 @@ export class AnimationManager {
   public addParallaxEffect(elements: NodeListOf<Element> | Element[]): void {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
-      
+
       elements.forEach((element) => {
         const rect = element.getBoundingClientRect();
         const speed = parseFloat(element.getAttribute('data-parallax-speed') || '0.5');
         const yPos = -(scrollTop * speed);
-        
+
         if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
           (element as HTMLElement).style.transform = `translateY(${yPos}px)`;
         }
@@ -377,7 +377,7 @@ export class AnimationManager {
     height?: string;
   }): void {
     const { lines, width = ['100%'], height = '1rem' } = config;
-    
+
     for (let i = 0; i < lines; i++) {
       const skeleton = document.createElement('div');
       skeleton.className = 'skeleton-loader';

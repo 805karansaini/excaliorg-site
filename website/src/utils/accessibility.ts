@@ -34,7 +34,7 @@ export class AccessibilityManager {
   private static instance: AccessibilityManager;
   private config: AccessibilityConfig;
   private issues: AccessibilityIssue[] = [];
-  // private keyboardTraps: WeakSet<Element> = new WeakSet(); // Reserved for future use
+  // private keyboardTraps: WeakSet<Element> = new WeakSet() // Reserved for future use
   private announcementRegion: HTMLElement | null = null;
 
   private constructor(config: Partial<AccessibilityConfig> = {}) {
@@ -757,7 +757,7 @@ export class AccessibilityManager {
         // Check if element has alternative focus indicator
         const hasAlternativeFocus = computedStyle.boxShadow !== 'none' ||
                                   computedStyle.border !== 'none' ||
-                                  computedStyle.backgroundColor !== 'rgba(0, 0, 0, 0)';
+                                  computedStyle.backgroundColor !== 'rgba(0, 0, 0, 0)'
         
         if (!hasAlternativeFocus) {
           this.addIssue({
@@ -782,7 +782,7 @@ export class AccessibilityManager {
     
     // Log to console in development
     if (import.meta.env?.DEV) {
-      console.warn(`[A11Y ${issue.wcagLevel}] ${issue.message}`, issue.element);
+      console.warn(`[A11Y ${issue.wcagLevel}] ${issue.message}`, issue.element)
     }
     
     trackError('accessibility_issue', issue.message, `${issue.category} - ${issue.wcagLevel}`);

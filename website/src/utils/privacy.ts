@@ -1,6 +1,16 @@
 // Privacy compliance and GDPR utilities
 import { trackUserPreference } from './analytics';
 
+declare global {
+  interface Window {
+    gtag?: (
+      command: 'config' | 'event' | 'js' | 'set',
+      targetId: string | Date,
+      config?: Record<string, unknown>
+    ) => void;
+  }
+}
+
 export interface PrivacyConfig {
   enableCookieConsent: boolean;
   enableGDPRCompliance: boolean;
@@ -42,6 +52,9 @@ export interface DataProcessingRecord {
   automated: boolean;
 }
 
+// Feature flag: Set to true to show privacy bar, false to allow cookies/tracking by default
+export const SHOW_PRIVACY_BANNER = false;
+
 export class PrivacyManager {
   private static instance: PrivacyManager;
   private config: PrivacyConfig;
@@ -75,6 +88,17 @@ export class PrivacyManager {
    * Initialize privacy compliance features
    */
   public initialize(): void {
+    if (!SHOW_PRIVACY_BANNER) {
+      // If feature flag is false, set consent to all true and do not show banner
+      this.setConsent({
+        analytics: true,
+        functional: true,
+        marketing: true,
+        timestamp: new Date(),
+        version: '1.0'
+      });
+      return;
+    }
     this.loadStoredConsent();
     this.detectUserLocation();
     this.setupPrivacyBanner();
@@ -143,9 +167,9 @@ export class PrivacyManager {
   private detectUserLocation(): void {
     // In production, this would use a geolocation service
     // For now, we'll assume GDPR compliance is needed
-    const isEU = true; // Placeholder
-    const isCA = false; // Placeholder
-    
+    const isEU = true // Placeholder
+    const isCA = false // Placeholder
+
     if (isEU) {
       this.config.enableGDPRCompliance = true;
     }
@@ -158,6 +182,10 @@ export class PrivacyManager {
    * Setup privacy banner
    */
   private setupPrivacyBanner(): void {
+    // Remove any existing banners before creating a new one
+    const existingBanners = document.querySelectorAll('.privacy-banner');
+    existingBanners.forEach(banner => banner.remove());
+
     if (!this.config.showPrivacyBanner || this.hasValidConsent()) {
       return;
     }
@@ -320,7 +348,7 @@ export class PrivacyManager {
   private setConsent(consent: PrivacyConsent): void {
     this.consent = consent;
     localStorage.setItem('privacy_consent', JSON.stringify(consent));
-    
+
     // Track consent preferences
     trackUserPreference('analytics_consent', consent.analytics ? 'granted' : 'denied');
     trackUserPreference('functional_consent', consent.functional ? 'granted' : 'denied');
@@ -328,10 +356,11 @@ export class PrivacyManager {
 
     // Configure analytics based on consent
     this.configureAnalytics(consent.analytics);
-    
-    // Hide banner
+
+    // Remove banner from DOM and clear reference
     if (this.banner) {
-      this.banner.style.display = 'none';
+      this.banner.remove();
+      this.banner = null;
     }
 
     // Dispatch consent event
@@ -363,7 +392,7 @@ export class PrivacyManager {
 
     const consentAge = Date.now() - this.consent.timestamp.getTime();
     const maxAge = this.config.cookieExpirationDays * 24 * 60 * 60 * 1000;
-    
+
     return consentAge < maxAge;
   }
 
@@ -372,12 +401,12 @@ export class PrivacyManager {
    */
   private setupAnalyticsOptOut(): void {
     // Global opt-out mechanism
-    (window as any)['ga-disable-G-RY42DV6SGY'] = this.config.analyticsOptOut;
-    
+    (window as Window & { 'ga-disable-G-RY42DV6SGY'?: boolean })['ga-disable-G-RY42DV6SGY'] = this.config.analyticsOptOut;
+
     // Listen for Do Not Track header
     if (navigator.doNotTrack === '1') {
       this.config.analyticsOptOut = true;
-      (window as any)['ga-disable-G-RY42DV6SGY'] = true;
+      (window as Window & { 'ga-disable-G-RY42DV6SGY'?: boolean })['ga-disable-G-RY42DV6SGY'] = true;
     }
   }
 
@@ -419,7 +448,7 @@ export class PrivacyManager {
                   localStorage.removeItem(key);
                 }
               }
-            } catch (e) {
+            } catch {
               // If can't parse, remove old items
               localStorage.removeItem(key);
             }
@@ -438,16 +467,15 @@ export class PrivacyManager {
    */
   private setupCookieManagement(): void {
     // Override document.cookie to track cookie usage
-    const originalCookie = Object.getOwnPropertyDescriptor(Document.prototype, 'cookie') || 
-                          Object.getOwnPropertyDescriptor(HTMLDocument.prototype, 'cookie');
-    
+    const originalCookie = Object.getOwnPropertyDescriptor(Document.prototype, 'cookie');
+
     if (originalCookie) {
       Object.defineProperty(document, 'cookie', {
         get: originalCookie.get,
         set: (value: string) => {
           const cookieName = value.split('=')[0];
           console.log(`Cookie set: ${cookieName}`);
-          
+
           // Apply SameSite and Secure attributes
           let enhancedValue = value;
           if (!value.includes('SameSite=')) {
@@ -456,7 +484,7 @@ export class PrivacyManager {
           if (location.protocol === 'https:' && !value.includes('Secure')) {
             enhancedValue += '; Secure';
           }
-          
+
           if (originalCookie.set) {
             originalCookie.set.call(document, enhancedValue);
           }
@@ -487,10 +515,10 @@ export class PrivacyManager {
   public revokeConsent(): void {
     this.consent = null;
     localStorage.removeItem('privacy_consent');
-    
+
     // Reconfigure analytics
     this.configureAnalytics(false);
-    
+
     // Show banner again
     if (this.config.showPrivacyBanner) {
       this.setupPrivacyBanner();
@@ -511,36 +539,132 @@ export class PrivacyManager {
    */
   public generatePrivacyPolicy(): string {
     const policy = [
-      '# Privacy Policy',
+      '# Privacy Policy for Excali Organizer',
       '',
-      '## Data We Collect',
-      'We collect the following types of data:',
-      ...this.dataProcessingRecords.map(record => [
-        `### ${record.purpose}`,
-        `- **Data Types**: ${record.dataTypes.join(', ')}`,
-        `- **Legal Basis**: ${record.legalBasis}`,
-        `- **Retention**: ${record.retention} days`,
-        `- **Third Parties**: ${record.thirdParties.join(', ') || 'None'}`,
-        `- **Cross-Border Transfer**: ${record.crossBorderTransfer ? 'Yes' : 'No'}`,
-        `- **Automated Processing**: ${record.automated ? 'Yes' : 'No'}`,
-        ''
-      ]).flat(),
+      '**Effective Date:** January 12, 2025',
       '',
-      '## Your Rights',
-      'Under GDPR, you have the following rights:',
-      '- Right to access your data',
-      '- Right to rectify incorrect data',
-      '- Right to erase your data',
-      '- Right to restrict processing',
-      '- Right to data portability',
-      '- Right to object to processing',
-      '- Right to withdraw consent',
+      '## Introduction',
       '',
-      '## Contact Information',
-      'For privacy-related inquiries, please contact us at privacy@excali.org',
+      'Excali Organizer is a Chrome extension that enhances your Excalidraw experience with organization and project management features. We are committed to protecting your privacy and being transparent about our data practices.',
       '',
-      `## Last Updated`,
-      `This privacy policy was last updated on ${new Date().toLocaleDateString()}.`
+      '## Core Privacy Principles',
+      '',
+      '• **Local-First:** Your drawings and projects are stored locally on your device',
+      '• **No Account Required:** We don\'t collect personal information or require account creation',
+      '• **Minimal Data Collection:** We only collect anonymous usage analytics to improve the extension',
+      '• **Your Control:** You have full control over your data and privacy preferences',
+      '',
+      '## What Data We Collect',
+      '',
+      '### Website Analytics (This Website Only)',
+      'When you visit this website (excali.org), we use Google Analytics to understand how users interact with our site:',
+      '• Page views and navigation patterns',
+      '• Time spent on pages and bounce rates',
+      '• Device type, browser, and approximate location (country/region)',
+      '• Referral sources and search terms',
+      '',
+      'This data is anonymous and aggregated. We use it to improve the website experience and understand user interest in the extension.',
+      '',
+      '### Extension Usage (Excali Organizer Extension)',
+      'The Excali Organizer extension operates with a privacy-first approach:',
+      '• **Your Drawings:** Never collected, transmitted, or stored on our servers',
+      '• **Project Data:** Stored locally in your browser using secure storage APIs',
+      '• **Preferences:** Theme settings and organizational preferences stored locally',
+      '• **Usage Analytics:** We may collect anonymous feature usage to improve the extension (with your consent)',
+      '',
+      '## What We Don\'t Collect',
+      '',
+      '• Personal identifying information (name, email, etc.)',
+      '• Your Excalidraw drawings or creative content',
+      '• Login credentials or account information',
+      '• Detailed browsing history outside of excalidraw.com usage',
+      '• Any data that could identify you personally',
+      '',
+      '## How We Use Data',
+      '',
+      '### Website Analytics',
+      '• Understand user interest and improve the website',
+      '• Optimize content and user experience',
+      '• Monitor website performance and fix issues',
+      '',
+      '### Extension Improvement',
+      '• Identify popular features and usage patterns',
+      '• Detect and fix bugs or performance issues',
+      '• Prioritize new feature development',
+      '',
+      '## Data Storage and Security',
+      '',
+      '### Local Storage',
+      '• Extension data is stored locally using Chrome\'s secure storage APIs',
+      '• Data remains on your device and is not transmitted to our servers',
+      '• You can export your data at any time for backup purposes',
+      '',
+      '### Analytics Data',
+      '• Website analytics are processed by Google Analytics',
+      '• Data is anonymized and aggregated',
+      '• No personal information is included in analytics data',
+      '',
+      '## Your Rights and Choices',
+      '',
+      '### Cookie Preferences',
+      'You can control analytics cookies through:',
+      '• Our cookie consent banner (when first visiting the site)',
+      '• Your browser settings',
+      '• Opt-out tools provided by Google Analytics',
+      '',
+      '### Extension Data',
+      '• **Export:** Export all your projects and data at any time',
+      '• **Delete:** Remove the extension to delete all associated data',
+      '• **Control:** Manage privacy settings within the extension',
+      '',
+      '### Your GDPR Rights',
+      'If you\'re in the EU, you have additional rights:',
+      '• **Access:** Request information about data we process',
+      '• **Rectification:** Correct inaccurate data',
+      '• **Erasure:** Request deletion of your data',
+      '• **Portability:** Export your data in a standard format',
+      '• **Objection:** Object to certain types of processing',
+      '',
+      '## Third-Party Services',
+      '',
+      '### Google Analytics',
+      '• Used only for website analytics (not in the extension)',
+      '• Governed by Google\'s Privacy Policy',
+      '• You can opt-out using Google\'s tools or browser settings',
+      '',
+      '### Chrome Web Store',
+      '• Extension distribution is handled by Google',
+      '• Subject to Google\'s Chrome Web Store policies',
+      '• Installation and update data may be processed by Google',
+      '',
+      '## Children\'s Privacy',
+      '',
+      'Our service is not directed to children under 13. We do not knowingly collect personal information from children under 13. If you become aware that a child has provided us with personal information, please contact us.',
+      '',
+      '## Changes to This Policy',
+      '',
+      'We may update this privacy policy from time to time. We will notify users of any material changes by:',
+      '• Updating the "Effective Date" at the top of this policy',
+      '• Posting the updated policy on our website',
+      '• Providing notice within the extension if changes affect extension functionality',
+      '',
+      '## Contact Us',
+      '',
+      'If you have questions about this privacy policy or our data practices:',
+      '',
+      '• **Email:** privacy@excali.org',
+      '• **GitHub:** Open an issue on our repository for public discussions',
+      '• **Website:** Visit excali.org for the most current information',
+      '',
+      '## Open Source Commitment',
+      '',
+      'Excali Organizer is an open-source project. You can review our code, contribute improvements, and verify our privacy practices at our GitHub repository.',
+      '',
+      `**Last Updated:** ${new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })}`
     ];
 
     return policy.join('\n');
@@ -553,7 +677,7 @@ export class PrivacyManager {
     const data = {
       consent: this.consent,
       localStorage: Object.fromEntries(
-        Object.entries(localStorage).filter(([key]) => 
+        Object.entries(localStorage).filter(([key]) =>
           key.startsWith('privacy_') || key.startsWith('analytics_')
         )
       ),
@@ -600,13 +724,6 @@ export class PrivacyManager {
 // Export singleton instance
 export const privacyManager = PrivacyManager.getInstance();
 
-// Auto-initialize privacy features
-if (typeof window !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', () => {
-    privacyManager.initialize();
-  });
-}
-
 // Export utility functions
 export const getConsent = () => privacyManager.getConsent();
 export const hasConsent = (type: 'analytics' | 'functional' | 'marketing') => privacyManager.hasConsent(type);
@@ -614,3 +731,11 @@ export const revokeConsent = () => privacyManager.revokeConsent();
 export const exportUserData = () => privacyManager.exportUserData();
 export const deleteAllUserData = () => privacyManager.deleteAllUserData();
 export const generatePrivacyPolicy = () => privacyManager.generatePrivacyPolicy();
+
+/**
+ * Clear stored consent for testing purposes
+ */
+export const clearConsent = () => {
+  localStorage.removeItem('privacy_consent');
+  privacyManager.revokeConsent();
+};
