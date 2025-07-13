@@ -56,17 +56,23 @@ export class PerformanceMonitor {
               this.trackLCP(entry.startTime);
             }
             if (entry.entryType === 'first-input') {
-              this.trackFID((entry as any).processingStart - entry.startTime);
+              const fidEntry = entry as PerformanceEventTiming
+              this.trackFID(fidEntry.processingStart - entry.startTime)
             }
-            if (entry.entryType === 'layout-shift' && !(entry as any).hadRecentInput) {
-              this.trackCLS((entry as any).value);
+            if (entry.entryType === 'layout-shift') {
+              const clsEntry = entry as PerformanceEntry & { hadRecentInput?: boolean; value: number }
+              if (!clsEntry.hadRecentInput) {
+                this.trackCLS(clsEntry.value)
+              }
             }
           }
         });
 
         this.vitalsObserver.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
       } catch (e) {
-        console.warn('Could not initialize Core Web Vitals observer:', e);
+        if (import.meta.env.DEV) {
+          console.warn('Could not initialize Core Web Vitals observer:', e)
+        }
       }
     }
 
@@ -202,17 +208,17 @@ export class PerformanceMonitor {
 
   public startInteractionTracking(): void {
     // Track first interaction
-    let firstInteraction = true;
-    const interactionHandler = (_event: Event) => {
+    let firstInteraction = true
+    const interactionHandler = () => {
       if (firstInteraction) {
-        firstInteraction = false;
-        trackPerformance('time_to_first_interaction', performance.now(), 'user_interaction');
+        firstInteraction = false
+        trackPerformance('time_to_first_interaction', performance.now(), 'user_interaction')
       }
-    };
+    }
 
-    ['click', 'keydown', 'touchstart', 'scroll'].forEach(eventType => {
-      document.addEventListener(eventType, interactionHandler, { once: true, passive: true });
-    });
+    ;['click', 'keydown', 'touchstart', 'scroll'].forEach(eventType => {
+      document.addEventListener(eventType, interactionHandler, { once: true, passive: true })
+    })
   }
 
   public trackCustomTiming(name: string, startTime: number, endTime?: number): void {
@@ -244,7 +250,7 @@ export class MemoryMonitor {
     return MemoryMonitor.instance;
   }
 
-  public startMonitoring(intervalMs: number = 30000): void {
+  public startMonitoring(intervalMs = 30000): void {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
@@ -259,7 +265,7 @@ export class MemoryMonitor {
 
   private trackMemoryUsage(): void {
     if ('memory' in performance) {
-      const memory = (performance as any).memory;
+      const memory = (performance as unknown as { memory?: { usedJSHeapSize: number; totalJSHeapSize: number; jsHeapSizeLimit: number } }).memory
       if (memory) {
         trackPerformance('memory_used', memory.usedJSHeapSize, 'memory_metrics');
         trackPerformance('memory_total', memory.totalJSHeapSize, 'memory_metrics');
@@ -293,7 +299,7 @@ export class ConnectionMonitor {
 
   private initializeConnectionTracking(): void {
     if ('connection' in navigator) {
-      const connection = (navigator as any).connection;
+      const connection = (navigator as unknown as { connection?: { downlink: number; rtt: number; effectiveType: string; addEventListener: (event: string, handler: () => void) => void } }).connection
       if (connection) {
         this.trackConnectionInfo(connection);
         
@@ -304,7 +310,7 @@ export class ConnectionMonitor {
     }
   }
 
-  private trackConnectionInfo(connection: any): void {
+  private trackConnectionInfo(connection: { downlink: number; rtt: number; effectiveType?: string }): void {
     trackPerformance('connection_downlink', connection.downlink * 1000, 'connection_metrics'); // Convert to Kbps
     trackPerformance('connection_rtt', connection.rtt, 'connection_metrics');
     
@@ -325,9 +331,9 @@ export class ConnectionMonitor {
     return scores[type] || 0;
   }
 
-  public getConnectionInfo(): any {
+  public getConnectionInfo(): unknown {
     if ('connection' in navigator) {
-      return (navigator as any).connection;
+      return (navigator as unknown as { connection?: unknown }).connection
     }
     return null;
   }

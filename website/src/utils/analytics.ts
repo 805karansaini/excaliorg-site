@@ -1,4 +1,6 @@
-// Google Analytics 4 utilities for event tracking
+// Google Analytics 4 utilities for event tracking with performance optimization
+import { analyticsBatcher } from './analytics-batch';
+
 export const GA_MEASUREMENT_ID = 'G-RY42DV6SGY';
 
 // Analytics configuration
@@ -25,7 +27,7 @@ declare global {
 }
 
 /**
- * Track custom events with Google Analytics
+ * Track custom events with Google Analytics - Optimized with batching
  * @param action - The action that was performed
  * @param category - The category of the event
  * @param label - Optional label for the event
@@ -37,13 +39,12 @@ export const trackEvent = (
   label?: string,
   value?: number
 ) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', action, {
-      event_category: category,
-      event_label: label,
-      value: value,
-    });
-  }
+  // Use batching for better performance
+  analyticsBatcher.addEvent(action, {
+    event_category: category,
+    event_label: label,
+    value: value,
+  });
 };
 
 /**
@@ -92,12 +93,23 @@ export const trackScrollDepth = (percentage: number) => {
   trackEvent('scroll_depth', 'engagement', `${percentage}%`, percentage);
 };
 
+// Throttle feature card hover tracking
+const hoverTrackingCache = new Map<string, number>();
+const HOVER_THROTTLE_TIME = 5000; // 5 seconds
+
 /**
- * Track feature card hover interactions
+ * Track feature card hover interactions - Throttled for performance
  * @param featureName - Name of the feature card that was hovered
  */
 export const trackFeatureCardHover = (featureName: string) => {
-  trackEvent('feature_card_hover', 'engagement', featureName);
+  const now = Date.now();
+  const lastTracked = hoverTrackingCache.get(featureName);
+  
+  // Only track if enough time has passed since last tracking for this feature
+  if (!lastTracked || now - lastTracked > HOVER_THROTTLE_TIME) {
+    hoverTrackingCache.set(featureName, now);
+    trackEvent('feature_card_hover', 'engagement', featureName);
+  }
 };
 
 /**

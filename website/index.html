@@ -18,8 +18,99 @@
     <meta name="msapplication-TileColor" content="#6366f1" />
     <meta name="msapplication-TileImage" content="/icon-192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Resource Hints for Performance Optimization -->
+    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    
     <title>Excali Organizer - File Manager for Excalidraw</title>
     <meta name="description" content="Transform Excalidraw with professional organization tools. Unlimited storage, advanced search, project management. Free Chrome extension." />
+    
+    <!-- Critical CSS inlined for immediate render -->
+    <style>
+      /* Critical CSS - Above-the-fold styles only */
+      :root {
+        --color-primary: #6366f1;
+        --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6);
+        --gradient-text: linear-gradient(135deg, #6366f1, #8b5cf6);
+        --animation-normal: 0.3s;
+        --animation-curve: cubic-bezier(0.4, 0, 0.2, 1);
+        --color-background: #ffffff;
+        --color-foreground: #0f172a;
+        --color-text-primary: #0f172a;
+        --color-text-secondary: #475569;
+        --color-border: #e2e8f0;
+      }
+      .dark {
+        --color-background: #0f172a;
+        --color-foreground: #f8fafc;
+        --color-text-primary: #f8fafc;
+        --color-text-secondary: #cbd5e1;
+        --color-border: #334155;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0; padding: 0;
+        font-family: 'Inter', system-ui, sans-serif;
+        background-color: var(--color-background);
+        color: var(--color-foreground);
+        transition: background-color var(--animation-normal) var(--animation-curve);
+      }
+      #root { min-height: 100vh; }
+      .fixed { position: fixed; }
+      .top-0 { top: 0; }
+      .w-full { width: 100%; }
+      .z-50 { z-index: 50; }
+      .glass-header { 
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--color-border);
+      }
+      .dark .glass-header { background: rgba(15, 23, 42, 0.8); }
+      .max-w-7xl { max-width: 80rem; }
+      .mx-auto { margin-left: auto; margin-right: auto; }
+      .px-4 { padding-left: 1rem; padding-right: 1rem; }
+      .flex { display: flex; }
+      .items-center { align-items: center; }
+      .justify-between { justify-content: space-between; }
+      .h-18 { height: 4.5rem; }
+      .text-heading-1 {
+        font-size: 3.5rem; font-weight: 700; line-height: 1.1;
+        color: var(--color-text-primary); max-width: 65ch;
+      }
+      .text-body-large {
+        font-size: 1.25rem; line-height: 1.6;
+        color: var(--color-text-secondary); max-width: 65ch;
+      }
+      .gradient-text {
+        background: var(--gradient-text);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .btn-primary {
+        background: var(--gradient-primary); color: white;
+        font-weight: 600; padding: 1rem 2rem; border-radius: 9999px;
+        border: none; cursor: pointer; display: inline-flex;
+        align-items: center; gap: 0.5rem; min-height: 44px;
+        transition: all var(--animation-normal) var(--animation-curve);
+      }
+      .pt-32 { padding-top: 8rem; }
+      .pb-20 { padding-bottom: 5rem; }
+      .mb-8 { margin-bottom: 2rem; }
+      .mb-12 { margin-bottom: 3rem; }
+      .text-center { text-align: center; }
+      @media (max-width: 768px) {
+        .text-heading-1 { font-size: 2.5rem; line-height: 1.2; }
+        .text-body-large { font-size: 1.125rem; }
+        .pt-32 { padding-top: 6rem; }
+      }
+    </style>
+    
+    <!-- Preload full CSS non-blocking -->
+    <link rel="preload" href="/src/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
     <meta name="keywords" content="excalidraw, file manager, organization, chrome extension, diagrams, productivity" />
     
     <!-- Open Graph tags -->
@@ -37,16 +128,41 @@
     <meta name="twitter:description" content="Transform Excalidraw with professional organization tools. Unlimited storage, advanced search, project management. Free Chrome extension." />
     <meta name="twitter:image" content="https://excali.org/icon-512.png" />
     
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RY42DV6SGY"></script>
+    <!-- Deferred Google Analytics 4 for Performance -->
     <script>
+      // Defer Google Analytics loading to improve performance
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-RY42DV6SGY', {
-        page_title: 'Excali Organizer - File Manager for Excalidraw',
-        page_location: 'https://www.excali.org'
+      
+      // Load GA after user interaction or 3 seconds delay
+      function loadGoogleAnalytics() {
+        if (window.GA_LOADED) return; // Prevent multiple loads
+        window.GA_LOADED = true;
+        
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RY42DV6SGY';
+        document.head.appendChild(script);
+        
+        script.onload = function() {
+          gtag('js', new Date());
+          gtag('config', 'G-RY42DV6SGY', {
+            anonymize_ip: true,
+            allow_ad_personalization_signals: false,
+            allow_google_signals: false,
+            page_title: 'Excali Organizer - File Manager for Excalidraw',
+            page_location: 'https://www.excali.org'
+          });
+        };
+      }
+      
+      // Load on first user interaction (better UX)
+      ['mousedown', 'touchstart', 'keydown', 'scroll'].forEach(function(eventType) {
+        document.addEventListener(eventType, loadGoogleAnalytics, { once: true, passive: true });
       });
+      
+      // Fallback: Load after 3 seconds if no interaction
+      setTimeout(loadGoogleAnalytics, 3000);
     </script>
   </head>
   <body>

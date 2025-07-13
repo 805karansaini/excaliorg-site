@@ -12,19 +12,19 @@
   --color-secondary-hover: #7c3aed;
   --color-accent: #06b6d4;
   --color-accent-hover: #0891b2;
-  
+
   /* Gradient Definitions */
   --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6);
   --gradient-primary-hover: linear-gradient(135deg, #4f46e5, #7c3aed);
   --gradient-text: linear-gradient(135deg, #6366f1, #8b5cf6);
   --gradient-text-light: linear-gradient(135deg, #0f172a, #475569);
   --gradient-text-dark: linear-gradient(135deg, #f8fafc, #cbd5e1);
-  
+
   /* Glassmorphism Effects */
   --glass-bg: rgba(255, 255, 255, 0.1);
   --glass-border: rgba(255, 255, 255, 0.2);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  
+
   /* Animation Variables */
   --animation-fast: 0.15s;
   --animation-normal: 0.3s;
@@ -71,11 +71,11 @@
   --color-showcase: #f8fafc;
   --color-faq: #ffffff;
   --color-footer: #f8fafc;
-  
-  /* Light Theme Glassmorphism */
-  --glass-bg-light: rgba(255, 255, 255, 0.8);
-  --glass-border-light: rgba(255, 255, 255, 0.3);
-  --glass-shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  /* Theme-agnostic Glassmorphism Variables */
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
   /* Shadow System */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -125,12 +125,12 @@
     --color-showcase: #1e293b;
     --color-faq: #0f172a;
     --color-footer: #1e293b;
-    
-    /* Dark Theme Glassmorphism */
-    --glass-bg-dark: rgba(30, 41, 59, 0.8);
-    --glass-border-dark: rgba(255, 255, 255, 0.1);
-    --glass-shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.3);
-    
+
+    /* Override Glassmorphism for Dark Theme */
+    --glass-bg: rgba(30, 41, 59, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
     /* Override gradient text for dark mode */
     --gradient-text: linear-gradient(135deg, #a5b4fc, #c7d2fe);
     --gradient-text-light: linear-gradient(135deg, #f8fafc, #cbd5e1);
@@ -144,8 +144,9 @@
   }
 }
 
+/* Manual theme switching classes */
 .dark {
-  /* Dark theme override - Modern gradient-ready */
+  /* Inherit all dark theme variables from @media (prefers-color-scheme: dark) @theme block */
   --color-background: #0f172a;
   --color-surface: #0f172a;
   --color-foreground: #f8fafc;
@@ -177,14 +178,16 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
-  /* Dark theme gradient text */
   --gradient-text: linear-gradient(135deg, #a5b4fc, #c7d2fe);
   --gradient-text-light: linear-gradient(135deg, #f8fafc, #cbd5e1);
   --gradient-text-dark: linear-gradient(135deg, #f8fafc, #cbd5e1);
+  --glass-bg: rgba(30, 41, 59, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .light {
-  /* Light theme override - Modern gradient-ready */
+  /* Inherit all light theme variables from default @theme block */
   --color-background: #ffffff;
   --color-surface: #ffffff;
   --color-foreground: #0f172a;
@@ -216,10 +219,12 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  /* Light theme gradient text */
   --gradient-text: linear-gradient(135deg, #6366f1, #8b5cf6);
   --gradient-text-light: linear-gradient(135deg, #0f172a, #475569);
   --gradient-text-dark: linear-gradient(135deg, #f8fafc, #cbd5e1);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 /* === MODERN COMPONENT SYSTEM === */
@@ -272,32 +277,21 @@ body {
 /* === GLASSMORPHISM SYSTEM === */
 
 .glass-card {
-  background: var(--glass-bg-light);
+  background: var(--glass-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border-light);
+  border: 1px solid var(--glass-border);
   border-radius: 16px;
-  box-shadow: var(--glass-shadow-light);
+  box-shadow: var(--glass-shadow);
   transition: all var(--animation-normal) var(--animation-curve);
-}
-
-.dark .glass-card {
-  background: var(--glass-bg-dark);
-  border-color: var(--glass-border-dark);
-  box-shadow: var(--glass-shadow-dark);
 }
 
 .glass-header {
-  background: var(--glass-bg-light);
+  background: var(--glass-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--glass-border-light);
+  border-bottom: 1px solid var(--glass-border);
   transition: all var(--animation-normal) var(--animation-curve);
-}
-
-.dark .glass-header {
-  background: var(--glass-bg-dark);
-  border-bottom-color: var(--glass-border-dark);
 }
 
 /* === ANIMATED BACKGROUND SYSTEM === */
@@ -439,12 +433,12 @@ body {
     font-size: 2.5rem;
     line-height: 1.2;
   }
-  
+
   .text-heading-2 {
     font-size: 2rem;
     line-height: 1.3;
   }
-  
+
   .hero-subtitle {
     font-size: 1.25rem;
     line-height: 1.5;
@@ -808,6 +802,28 @@ body {
   border-color: var(--color-primary);
 }
 
+/* Enhanced card borders for dark mode */
+.dark .card {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dark .card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-color: var(--color-primary);
+}
+
+/* Enhanced feature card borders for dark mode */
+.dark .card-feature {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dark .card-feature:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.3);
+  border-color: var(--color-primary);
+}
+
 /* Section Spacing */
 .section {
   padding: 6rem 0;
@@ -835,6 +851,35 @@ body {
 .light .section {
   padding: 6rem 0;
   position: relative;
+}
+
+/* Enhanced section spacing for dark mode */
+.dark .section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.dark .section + .section {
+  padding-top: 8rem;
+}
+
+/* Dark mode section dividers */
+.dark .section:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+}
+
+/* Dark mode specific enhancements */
+.dark .section:nth-child(even) {
+  background: var(--color-surface-50);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .light .section + .section {
@@ -949,18 +994,18 @@ body {
   .grid-mobile-2 {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   /* Enhanced mobile spacing */
   .section:first-child {
     padding-top: 3rem;
   }
-  
+
   /* Better mobile typography scaling */
   .text-body, .text-body-large {
     font-size: 1rem;
     line-height: 1.7;
   }
-  
+
   /* Improved mobile CTA spacing */
   .hero-cta-mobile {
     padding: 2rem 0;
@@ -1177,9 +1222,9 @@ body {
 }
 
 .skeleton-loader {
-  background: linear-gradient(90deg, 
-    var(--color-surface-100) 25%, 
-    var(--color-surface-200) 50%, 
+  background: linear-gradient(90deg,
+    var(--color-surface-100) 25%,
+    var(--color-surface-200) 50%,
     var(--color-surface-100) 75%
   );
   background-size: 1000px 100%;
@@ -1225,7 +1270,7 @@ body {
   white-space: nowrap;
   margin: 0 auto;
   letter-spacing: 0.1em;
-  animation: typewriter 4s steps(40, end), 
+  animation: typewriter 4s steps(40, end),
              blink-caret 0.75s step-end infinite;
 }
 
@@ -1530,19 +1575,19 @@ body {
   .mobile-tap-feedback {
     transition: all 0.1s ease;
   }
-  
+
   .mobile-tap-feedback:active {
     transform: scale(0.95);
     opacity: 0.8;
   }
-  
+
   /* Override for buttons to maintain visibility */
   .btn-primary.mobile-tap-feedback:active,
   .btn-secondary.mobile-tap-feedback:active {
     opacity: 1 !important;
     color: white !important;
   }
-  
+
   .btn-primary.mobile-tap-feedback:active span,
   .btn-primary.mobile-tap-feedback:active svg,
   .btn-secondary.mobile-tap-feedback:active span,
@@ -1550,14 +1595,14 @@ body {
     color: white !important;
     stroke: white !important;
   }
-  
+
   /* Enhanced mobile button feedback */
   .btn-primary:active,
   .btn-secondary:active {
     transform: scale(0.96);
     color: white !important;
   }
-  
+
   .btn-primary:active span,
   .btn-primary:active svg,
   .btn-secondary:active span,
@@ -1565,25 +1610,25 @@ body {
     color: white !important;
     stroke: white !important;
   }
-  
+
   /* Mobile button centering fix */
   .btn-primary,
   .btn-secondary {
     justify-content: center;
     text-align: center;
   }
-  
+
   /* Mobile card interactions */
   .card:active,
   .card-feature:active {
     transform: scale(0.98);
   }
-  
+
   /* Sticky nav mobile optimizations */
   .sticky-nav-mobile {
     height: 60px;
   }
-  
+
   .sticky-nav-mobile .btn-primary {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
@@ -1730,33 +1775,33 @@ body {
   .privacy-banner {
     padding: 0.75rem;
   }
-  
+
   .privacy-banner-content {
     gap: 0.75rem;
   }
-  
+
   .privacy-banner-actions {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .privacy-btn {
     width: 100%;
     text-align: center;
   }
-  
+
   .privacy-category {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .privacy-category label {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.25rem;
   }
-  
+
   .privacy-category small {
     margin-left: 0;
   }
