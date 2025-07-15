@@ -20,8 +20,7 @@ export default defineConfig({
   ],
   server: {
     allowedHosts: [
-      'flood-comm-prairie-hot.trycloudflare.com',
-      'advantage-apparatus-representatives-firmware.trycloudflare.com'
+      'stirred-organic-spaniel.ngrok-free.app'
     ]
   },
   build: {

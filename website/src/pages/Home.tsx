@@ -1,19 +1,9 @@
-import { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { HeaderBar } from '../components/HeaderBar'
 import { trackFAQInteraction, trackCTAClick, trackStoreRedirect } from '../utils/analytics'
 import { useScrollTracking } from '../hooks/useScrollTracking'
 import { privacyManager } from '../utils/privacy'
-import { Link } from 'react-router-dom'
-
-declare global {
-  interface Window {
-    privacyDebug?: {
-      clearConsent: () => void
-      getConsent: () => unknown
-      showBanner: () => void
-    }
-  }
-}
 
 export const Home = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null)
@@ -22,12 +12,12 @@ export const Home = () => {
   useScrollTracking()
 
   // Initialize privacy manager
-  useEffect(() => {
+  React.useEffect(() => {
     privacyManager.initialize()
 
     // Expose privacy utilities to window for debugging (development only)
     if (import.meta.env.DEV) {
-      window.privacyDebug = {
+      (window as typeof window & { privacyDebug?: object }).privacyDebug = {
         clearConsent: () => {
           localStorage.removeItem('privacy_consent')
           privacyManager.revokeConsent()
@@ -54,7 +44,7 @@ export const Home = () => {
     trackCTAClick(buttonText, location)
     trackStoreRedirect(location)
     // Open download page in new tab
-    window.open('https://dev.excali.org', '_blank', 'noopener,noreferrer')
+    window.open('https://excali.org', '_blank', 'noopener,noreferrer')
   }
 
   const faqs = [
@@ -97,363 +87,618 @@ export const Home = () => {
       {/* Modern Header with Glassmorphism */}
       <HeaderBar />
 
-      {/* Hero Section with Enhanced Visual Hierarchy */}
-      <section id="hero" className="section pt-32 pb-20" style={{ backgroundColor: 'var(--color-hero)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-heading-1 mb-8 animate-fade-in-up">
-              Transform Excalidraw into a
-              <span className="gradient-text block mt-2">Professional Workspace</span>
-            </h1>
-            <p className="text-body-large mb-12 max-w-3xl mx-auto animate-fade-in-up animate-delay-100">
-              Organize your drawings with unlimited projects, instant search, and powerful management tools.
-              Keep your creative workflow smooth and your ideas perfectly organized.
-            </p>
+      {/* Hero Section with Modern Background */}
+      <section id="hero" className="section relative overflow-hidden animated-bg" style={{ background: 'var(--color-hero)' }}>
+        {/* Modern Animated Background Center Element */}
+        <div className="animated-bg-center" />
 
-            {/* Primary CTA */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-fade-in-up animate-delay-200">
-              <button
-                onClick={() => handleCTAClick('Add to Chrome - Free', 'hero_primary')}
-                className="btn-primary group px-8 py-4 text-lg mobile-tap-feedback"
-              >
-                <svg className="w-5 h-5 mr-2 group-hover:animate-bounce" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-                <span>Add to Chrome - Free</span>
-                <svg className="w-5 h-5 ml-2 cta-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </button>
-              <button className="btn-secondary px-8 py-4 text-lg mobile-tap-feedback">
-                Watch Demo
-              </button>
-            </div>
+        <div className="container mx-auto px-4 text-center relative z-10 pt-16">
+          <h1 className="hero-title mb-6 animate-fade-in-up">
+            Turn Excalidraw into a{' '}
+            <span className="gradient-text-static">Professional Creative Workspace</span>
+          </h1>
 
-            {/* Key Benefits Grid */}
-            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              <div className="card animate-fade-in-up animate-delay-200 mobile-tap-feedback">
-                <div className="text-2xl feature-icon">💾</div>
-                <h3 className="text-heading-3">Unlimited Storage</h3>
-                <p className="text-body">Never lose your drawings again with automatic local storage and project organization</p>
-              </div>
-              <div className="card animate-fade-in-up animate-delay-300 mobile-tap-feedback">
-                <div className="text-2xl feature-icon">🔍</div>
-                <h3 className="text-heading-3">Instant Search</h3>
-                <p className="text-body">Find any drawing in seconds with powerful search across all your projects and content</p>
-              </div>
-              <div className="card animate-fade-in-up animate-delay-400 mobile-tap-feedback">
-                <div className="text-2xl feature-icon">🎨</div>
-                <h3 className="text-heading-3">Smart Organization</h3>
-                <p className="text-body">Create color-coded projects, add descriptions, and keep your creative work perfectly organized</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Enhanced Features Section */}
-      <section id="features" className="section" style={{ backgroundColor: 'var(--color-features)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-heading-2 mb-6 animate-fade-in-up">
-              Everything You Need for Professional Creative Work
-            </h2>
-            <p className="text-body-large animate-fade-in-up animate-delay-100">
-              Transform your creative process with powerful organization and management features
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Features List */}
-            <div className="space-y-8">
-              {[
-                {
-                  icon: "📁",
-                  title: "Project Management",
-                  description: "Create unlimited projects with custom colors, descriptions, and smart categorization. Keep related drawings grouped together for easy access.",
-                  highlight: "Unlimited Projects"
-                },
-                {
-                  icon: "⚡",
-                  title: "Lightning-Fast Search",
-                  description: "Instantly find any drawing with advanced search that looks through project names, descriptions, and even drawing content.",
-                  highlight: "Search Everything"
-                },
-                {
-                  icon: "🔄",
-                  title: "Automatic Sync",
-                  description: "Your work is automatically saved and synced across your Excalidraw sessions. Never lose progress again.",
-                  highlight: "Auto-Save"
-                },
-                {
-                  icon: "📊",
-                  title: "Advanced Analytics",
-                  description: "Track your creative productivity with insights into your drawing habits, project progress, and workflow optimization.",
-                  highlight: "Productivity Insights"
-                }
-              ].map((feature, index) => (
-                <div key={index} className={`card-feature animate-fade-in-up animate-delay-${(index + 1) * 100} mobile-tap-feedback`}>
-                  <div className="flex items-start space-x-4">
-                    <div className="text-3xl feature-icon">{feature.icon}</div>
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h3 className="text-heading-3">{feature.title}</h3>
-                        <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full font-medium">
-                          {feature.highlight}
-                        </span>
-                      </div>
-                      <p className="text-body">{feature.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Visual Preview */}
-            <div className="relative">
-              <div className="relative bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8 shadow-xl animate-fade-in-up animate-delay-200">
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                    <span className="text-body-small font-medium ml-auto">Excalidraw + Organizer</span>
-                  </div>
-
-                  <div className="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm">
-                    <div className="grid grid-cols-2 gap-3 mb-4">
-                      <div className="bg-blue-100 dark:bg-blue-900/30 rounded p-3 text-center">
-                        <div className="w-full h-16 bg-blue-200 dark:bg-blue-800 rounded mb-2"></div>
-                        <span className="text-body-small">Project Alpha</span>
-                      </div>
-                      <div className="bg-green-100 dark:bg-green-900/30 rounded p-3 text-center">
-                        <div className="w-full h-16 bg-green-200 dark:bg-green-800 rounded mb-2"></div>
-                        <span className="text-body-small">Design System</span>
-                      </div>
-                    </div>
-
-                    <div className="border-t pt-3">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        <span className="text-body-small">Search drawings...</span>
-                      </div>
-                      <div className="space-y-1">
-                        <div className="flex items-center space-x-2 p-2 bg-gray-50 dark:bg-gray-800 rounded">
-                          <div className="w-8 h-8 bg-purple-200 dark:bg-purple-800 rounded"></div>
-                          <span className="text-body-small">Login Flow Diagram</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section id="workflow" className="section" style={{ backgroundColor: 'var(--color-workflow)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-heading-2 mb-6 animate-fade-in-up">
-              Get Started in 3 Simple Steps
-            </h2>
-            <p className="text-body-large animate-fade-in-up animate-delay-100">
-              Transform your Excalidraw workflow in minutes, not hours
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                step: "1",
-                title: "Install Extension",
-                description: "Add Excali Organizer to Chrome with one click. No account needed, no complex setup required."
-              },
-              {
-                step: "2",
-                title: "Open Excalidraw",
-                description: "Visit excalidraw.com and see the organization panel automatically appear alongside your canvas."
-              },
-              {
-                step: "3",
-                title: "Start Organizing",
-                description: "Create your first project, organize existing drawings, and experience the power of professional creative workflow."
-              }
-            ].map((item, index) => (
-              <div key={index} className={`text-center animate-fade-in-up animate-delay-${(index + 1) * 100}`}>
-                <div className="relative mb-6">
-                  <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto step-number">
-                    {item.step}
-                  </div>
-                  {index < 2 && (
-                    <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-primary to-transparent"></div>
-                  )}
-                </div>
-                <h3 className="text-heading-3 mb-4">{item.title}</h3>
-                <p className="text-body">{item.description}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <button
-              onClick={() => handleCTAClick('Get Started Now', 'workflow')}
-              className="btn-primary group px-8 py-4 text-lg mobile-tap-feedback"
-            >
-              <span>Get Started Now</span>
-              <svg className="w-5 h-5 ml-2 cta-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Installation Section */}
-      <section id="installation" className="section" style={{ backgroundColor: 'var(--color-cta)' }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-heading-2 mb-6 animate-fade-in-up">
-            Ready to Transform Your Creative Workflow?
-          </h2>
-          <p className="text-body-large mb-8 animate-fade-in-up animate-delay-100">
-            Join thousands of creators who have already upgraded their Excalidraw experience
+          <p className="hero-subtitle mb-12 animate-fade-in-up animate-delay-100">
+            Add powerful project management, unlimited storage, and advanced search to Excalidraw.com - completely free and privacy-focused.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 animate-fade-in-up animate-delay-200">
+          {/* Key Benefits with Modern Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 max-w-6xl mx-auto">
+            <div className="animate-fade-in-up animate-delay-200">
+              <div className="card-modern h-full">
+                <div className="flex items-center space-x-3">
+                  <div className="text-2xl feature-icon emoji">💾</div>
+                  <div className="text-left">
+                    <h3 className="text-heading-3">Unlimited Storage</h3>
+                    <p className="text-body-small">Never lose your work again</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="animate-fade-in-up animate-delay-300">
+              <div className="card-modern h-full">
+                <div className="flex items-center space-x-3">
+                  <div className="text-2xl feature-icon emoji">🗂️</div>
+                  <div className="text-left">
+                    <h3 className="text-heading-3">Smart Organization</h3>
+                    <p className="text-body-small">Group drawings into color-coded projects</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="animate-fade-in-up animate-delay-400">
+              <div className="card-modern h-full">
+                <div className="flex items-center space-x-3">
+                  <div className="text-2xl feature-icon emoji">🔍</div>
+                  <div className="text-left">
+                    <h3 className="text-heading-3">Instant Search</h3>
+                    <p className="text-body-small">Find any drawing in seconds</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="animate-fade-in-up animate-delay-500">
+              <div className="card-modern h-full">
+                <div className="flex items-center space-x-3">
+                  <div className="text-2xl feature-icon emoji">🔐</div>
+                  <div className="text-left">
+                    <h3 className="text-heading-3">100% Private</h3>
+                    <p className="text-body-small">All data stays on your device</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="animate-fade-in-up animate-delay-100">
+              <div className="card-modern h-full">
+                <div className="flex items-center space-x-3">
+                  <div className="text-2xl feature-icon emoji">📱</div>
+                  <div className="text-left">
+                    <h3 className="text-heading-3">Works Offline</h3>
+                    <p className="text-body-small">No internet required</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="animate-fade-in-up animate-delay-200">
+              <div className="card-modern h-full">
+                <div className="flex items-center space-x-3">
+                  <div className="text-2xl feature-icon emoji">⚡</div>
+                  <div className="text-left">
+                    <h3 className="text-heading-3">High Performance</h3>
+                    <p className="text-body-small">Optimized for speed and efficiency</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Modern CTA Buttons */}
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
             <button
-              onClick={() => handleCTAClick('Add to Chrome - Free', 'installation')}
-              className="btn-primary group px-8 py-4 text-lg mobile-tap-feedback"
+              onClick={() => handleCTAClick('Add to Chrome - Free', 'hero')}
+              className="btn-primary animate-fade-in-up animate-delay-300 mobile-tap-feedback group"
             >
-              <svg className="w-5 h-5 mr-2 group-hover:animate-bounce" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
               <span>Add to Chrome - Free</span>
-              <svg className="w-5 h-5 ml-2 cta-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              <svg className="w-5 h-5 cta-arrow icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
-            <button className="btn-secondary px-8 py-4 text-lg mobile-tap-feedback">
-              View on GitHub
-            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Problem/Solution Section */}
+      <section id="problem-solution" className="section relative" style={{ backgroundColor: 'var(--color-features)' }}>
+        <div className="container mx-auto px-4">
+
+          {/* Section Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-heading-2 mb-4 animate-fade-in-up">
+              The Problem with Excalidraw
+            </h2>
+            <p className="text-body-large max-w-3xl mx-auto animate-fade-in-up animate-delay-100">
+              Excalidraw is perfect for creating diagrams, but managing multiple drawings becomes chaotic.
+              Users struggle with lost drawings, no organization system, and limited storage.
+            </p>
           </div>
 
-          <p className="text-body-small animate-fade-in-up animate-delay-300">
-            ⭐ Free forever • ⭐ No account required • ⭐ Open source • ⭐ Privacy-first
-          </p>
+          {/* Before/After Comparison - Compact Side by Side */}
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+              {/* Before */}
+              <div className="animate-fade-in-up animate-delay-200">
+                <div className="card-modern p-6 h-full">
+                  <div className="text-center mb-4">
+                    <h3 className="text-heading-3 mb-2 flex items-center justify-center">
+                      <div className="text-2xl mr-2">😓</div>
+                      Before Excali Organizer
+                    </h3>
+                  </div>
+                  <ul className="space-y-3">
+                    <li className="flex items-start space-x-3">
+                      <div className="text-red-500 text-lg mt-0.5 flex-shrink-0">✗</div>
+                      <span className="text-body-small">Limited local storage that can be lost</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div className="text-red-500 text-lg mt-0.5 flex-shrink-0">✗</div>
+                      <span className="text-body-small">No way to organize related drawings</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div className="text-red-500 text-lg mt-0.5 flex-shrink-0">✗</div>
+                      <span className="text-body-small">Difficult to find specific drawings</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div className="text-red-500 text-lg mt-0.5 flex-shrink-0">✗</div>
+                      <span className="text-body-small">No project management capabilities</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div className="text-red-500 text-lg mt-0.5 flex-shrink-0">✗</div>
+                      <span className="text-body-small">Risk of losing work with browser clearing</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* After */}
+              <div className="animate-fade-in-up animate-delay-300">
+                <div className="card-modern p-6 h-full" style={{ background: 'linear-gradient(135deg, var(--color-primary)/10, var(--color-primary)/5)' }}>
+                  <div className="text-center mb-4">
+                    <h3 className="text-heading-3 mb-2 flex items-center justify-center">
+                      <div className="text-2xl mr-2">✨</div>
+                      After Excali Organizer
+                    </h3>
+                  </div>
+                  <ul className="space-y-3">
+                    <li className="flex items-start space-x-3">
+                      <div style={{ color: 'var(--color-success)' }} className="text-lg mt-0.5 flex-shrink-0">✓</div>
+                      <span className="text-body-small">Unlimited storage that never gets lost</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div style={{ color: 'var(--color-success)' }} className="text-lg mt-0.5 flex-shrink-0">✓</div>
+                      <span className="text-body-small">Color-coded project organization</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div style={{ color: 'var(--color-success)' }} className="text-lg mt-0.5 flex-shrink-0">✓</div>
+                      <span className="text-body-small">Powerful search across all drawings</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div style={{ color: 'var(--color-success)' }} className="text-lg mt-0.5 flex-shrink-0">✓</div>
+                      <span className="text-body-small">Professional project management</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div style={{ color: 'var(--color-success)' }} className="text-lg mt-0.5 flex-shrink-0">✓</div>
+                      <span className="text-body-small">Complete data privacy and security</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Core Features Section with Modern Cards */}
+      <section id="features" className="section" style={{ backgroundColor: 'var(--color-workflow)' }}>
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-heading-2 mb-4 animate-fade-in-up">
+              Everything You Need to Organize Your Creative Work
+            </h2>
+            <p className="text-body-large max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
+              Transform your Excalidraw experience with professional-grade tools that keep your creativity flowing.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Project Management */}
+            <div className="animate-fade-in-up animate-delay-100">
+              <div className="card-modern h-full">
+                <div className="text-4xl mb-4 feature-icon emoji">🗂️</div>
+                <h3 className="text-heading-3 mb-3">Project Management</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Create unlimited projects with custom names and colors</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Organize related drawings into logical groups</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Visual color coding for instant project identification</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Project descriptions for context and documentation</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Advanced Search */}
+            <div className="animate-fade-in-up animate-delay-200">
+              <div className="card-modern h-full">
+                <div className="text-4xl mb-4 feature-icon emoji">🔍</div>
+                <h3 className="text-heading-3 mb-3">Advanced Search</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Instant fuzzy search across all your drawings</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Search by project or across everything</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Keyboard shortcuts for rapid navigation</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Real-time results as you type</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Unlimited Storage */}
+            <div className="animate-fade-in-up animate-delay-300">
+              <div className="card-modern h-full">
+                <div className="text-4xl mb-4 feature-icon emoji">💾</div>
+                <h3 className="text-heading-3 mb-3">Unlimited Storage</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>No storage limits unlike browser localStorage</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Automatic saving every second</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Complete offline functionality</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Export projects as ZIP files for backup</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Enhanced Workflow */}
+            <div className="animate-fade-in-up animate-delay-400">
+              <div className="card-modern h-full">
+                <div className="text-4xl mb-4 feature-icon emoji">✨</div>
+                <h3 className="text-heading-3 mb-3">Enhanced Workflow</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>VS Code-style panel with pin/unpin functionality</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Comprehensive keyboard shortcuts for power users</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Instant theme sync with Excalidraw</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Resizable interface to fit your workflow</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Privacy & Security */}
+            <div className="animate-fade-in-up animate-delay-500">
+              <div className="card-modern h-full">
+                <div className="text-4xl mb-4 feature-icon emoji">🔐</div>
+                <h3 className="text-heading-3 mb-3">Privacy & Security</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Local-first architecture - data never leaves your device</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>No tracking or analytics - complete privacy</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Open source - fully auditable code</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>No account required - works immediately</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* High Performance */}
+            <div className="animate-fade-in-up animate-delay-100">
+              <div className="card-modern h-full">
+                <div className="text-4xl mb-4 feature-icon emoji">⚡</div>
+                <h3 className="text-heading-3 mb-3">High Performance</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Optimized for speed with minimal memory usage</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Smooth performance with thousands of drawings</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Non-blocking operations - no lag while drawing</span>
+                  </li>
+                  <li className="flex items-start space-x-3 text-body">
+                    <div style={{ color: 'var(--color-success)' }} className="text-sm mt-1 flex-shrink-0">✓</div>
+                    <span>Efficient indexing for instant search results</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Getting Started Section - Combined workflow and installation */}
+      <section id="getting-started" className="section relative overflow-hidden" style={{ backgroundColor: 'var(--color-workflow)' }}>
+        <div className="container mx-auto px-4">
+
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-heading-2 mb-4 animate-fade-in-up">
+              Get Started in Minutes
+            </h2>
+            <p className="text-body-large max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
+              No account required - works immediately after installation
+            </p>
+          </div>
+
+          {/* Installation and Usage Steps */}
+          <div className="max-w-5xl mx-auto mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+              {/* Step 1: Install */}
+              <div className="animate-fade-in-up animate-delay-200">
+                <div className="card-modern p-6 h-full">
+                  <div className="flex items-start space-x-4 mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 text-white rounded-full flex items-center justify-center font-bold text-lg step-number" style={{ backgroundColor: 'var(--color-primary)' }}>
+                      1
+                    </div>
+                    <div>
+                      <h3 className="text-heading-3 mb-2">Install Extension</h3>
+                      <p className="text-body">
+                        Add Excali Organizer to your browser from the Chrome Web Store
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 2: Visit */}
+              <div className="animate-fade-in-up animate-delay-300">
+                <div className="card-modern p-6 h-full">
+                  <div className="flex items-start space-x-4 mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 text-white rounded-full flex items-center justify-center font-bold text-lg step-number" style={{ backgroundColor: 'var(--color-primary)' }}>
+                      2
+                    </div>
+                    <div>
+                      <h3 className="text-heading-3 mb-2">Visit Excalidraw</h3>
+                      <p className="text-body">
+                        Go to excalidraw.com and see the organization panel appear automatically
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 3: Start Organizing */}
+              <div className="animate-fade-in-up animate-delay-400">
+                <div className="card-modern p-6 h-full">
+                  <div className="flex items-start space-x-4 mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 text-white rounded-full flex items-center justify-center font-bold text-lg step-number" style={{ backgroundColor: 'var(--color-primary)' }}>
+                      3
+                    </div>
+                    <div>
+                      <h3 className="text-heading-3 mb-2">Start Organizing</h3>
+                      <p className="text-body">
+                        Create projects, organize drawings with colors and names, and use search to find anything instantly
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* CTA Section */}
+          <div className="text-center relative">
+            {/* Subtle background pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute top-0 left-0 w-full h-full">
+                <div className="grid grid-cols-6 gap-4 transform rotate-12 scale-150">
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <div key={i} className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'var(--color-primary)', animationDelay: `${i * 0.1}s` }}></div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="relative z-10">
+              <h3 className="text-heading-2 mb-4 animate-fade-in-up">
+                Ready to Transform Your Workflow?
+              </h3>
+              <p className="text-body-large mb-8 max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
+                Join thousands of creators who've already upgraded their Excalidraw experience.
+              </p>
+
+              <div className="flex flex-col sm:flex-row justify-center gap-6 mb-12">
+                <button
+                  onClick={() => handleCTAClick('Install from Chrome Web Store', 'getting-started')}
+                  className="btn-primary animate-fade-in-up animate-delay-200 group"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  <span>Install from Chrome Web Store</span>
+                  <svg className="w-5 h-5 cta-arrow icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
+                <div className="text-center">
+                  <div className="text-2xl font-bold mb-2 text-heading-3">Unlimited</div>
+                  <div className="text-body">Canvases supported</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold mb-2 text-heading-3">100%</div>
+                  <div className="text-body">Free & Open Source</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold mb-2 text-heading-3">Chrome</div>
+                  <div className="text-body">+ All Chromium browsers</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
       {/* Use Cases Section */}
       <section id="use-cases" className="section" style={{ backgroundColor: 'var(--color-showcase)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-heading-2 mb-6 animate-fade-in-up">
+            <h2 className="text-heading-2 mb-4 animate-fade-in-up">
               Perfect for Every Creative Professional
             </h2>
-            <p className="text-body-large animate-fade-in-up animate-delay-100">
-              See how Excali Organizer transforms workflows across different disciplines
+            <p className="text-body-large mb-12 max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
+              See how Excali Organizer transforms workflows across different industries
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Product Designers",
-                description: "Organize wireframes, user flows, and design systems. Keep client projects separate and easily accessible.",
-                icon: "🎨",
-                benefits: ["Project separation", "Design system management", "Client presentation ready"]
-              },
-              {
-                title: "Software Engineers",
-                description: "Create and organize system architecture diagrams, API designs, and technical documentation.",
-                icon: "💻",
-                benefits: ["Architecture diagrams", "Technical documentation", "Team collaboration"]
-              },
-              {
-                title: "Educators & Students",
-                description: "Organize course materials, create structured lesson plans, and manage academic projects effortlessly.",
-                icon: "📚",
-                benefits: ["Course organization", "Lesson planning", "Student portfolios"]
-              },
-              {
-                title: "Business Analysts",
-                description: "Map business processes, create flowcharts, and organize stakeholder presentations.",
-                icon: "📊",
-                benefits: ["Process mapping", "Stakeholder alignment", "Professional presentations"]
-              },
-              {
-                title: "Consultants",
-                description: "Manage multiple client projects, create professional deliverables, and maintain organized workflows.",
-                icon: "💼",
-                benefits: ["Client project separation", "Professional deliverables", "Efficient workflows"]
-              },
-              {
-                title: "Creative Teams",
-                description: "Collaborate on creative projects, share inspiration boards, and maintain team creative standards.",
-                icon: "👥",
-                benefits: ["Team collaboration", "Creative standards", "Inspiration management"]
-              }
-            ].map((useCase, index) => (
-              <div key={index} className={`card animate-fade-in-up animate-delay-${(index + 1) * 100} mobile-tap-feedback`}>
-                <div className="text-3xl feature-icon mb-4">{useCase.icon}</div>
-                <h3 className="text-heading-3 mb-3">{useCase.title}</h3>
-                <p className="text-body mb-4">{useCase.description}</p>
-                <ul className="space-y-1">
-                  {useCase.benefits.map((benefit, idx) => (
-                    <li key={idx} className="flex items-center text-body-small">
-                      <svg className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      {benefit}
-                    </li>
-                  ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* For Designers */}
+            <div className="animate-fade-in-up animate-delay-100">
+              <div className="card-modern h-full">
+                <div className="text-4xl mb-4 feature-icon emoji">🎨</div>
+                <h3 className="text-heading-3 mb-3">For Designers</h3>
+                <ul className="space-y-2 text-body-small">
+                  <li>• Organize client projects with color-coded folders</li>
+                  <li>• Quickly find specific wireframes or mockups</li>
+                  <li>• Export complete project collections</li>
+                  <li>• Never lose work with unlimited storage</li>
                 </ul>
               </div>
-            ))}
+            </div>
+
+            {/* For Educators */}
+            <div className="animate-fade-in-up animate-delay-200">
+              <div className="card-modern h-full">
+                <div className="text-4xl mb-4 feature-icon emoji">📚</div>
+                <h3 className="text-heading-3 mb-3">For Educators</h3>
+                <ul className="space-y-2 text-body-small">
+                  <li>• Create organized lesson plans with multiple diagrams</li>
+                  <li>• Search through teaching materials instantly</li>
+                  <li>• Share project collections with colleagues</li>
+                  <li>• Keep student work organized by class/subject</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* For Teams */}
+            <div className="animate-fade-in-up animate-delay-300">
+              <div className="card-modern h-full">
+                <div className="text-4xl mb-4 feature-icon emoji">👥</div>
+                <h3 className="text-heading-3 mb-3">For Teams</h3>
+                <ul className="space-y-2 text-body-small">
+                  <li>• Collaborate on technical documentation</li>
+                  <li>• Organize system architecture diagrams</li>
+                  <li>• Share project exports with stakeholders</li>
+                  <li>• Maintain design systems and component libraries</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* For Consultants */}
+            <div className="animate-fade-in-up animate-delay-400">
+              <div className="card-modern h-full">
+                <div className="text-4xl mb-4 feature-icon emoji">💼</div>
+                <h3 className="text-heading-3 mb-3">For Consultants</h3>
+                <ul className="space-y-2 text-body-small">
+                  <li>• Organize client presentations by project</li>
+                  <li>• Quickly access relevant process diagrams</li>
+                  <li>• Professional project exports for clients</li>
+                  <li>• Maintain confidentiality with local storage</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
       <section id="faq" className="section" style={{ backgroundColor: 'var(--color-faq)' }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-heading-2 mb-6 animate-fade-in-up">
+            <h2 className="text-heading-2 mb-4 animate-fade-in-up">
               Frequently Asked Questions
             </h2>
-            <p className="text-body-large animate-fade-in-up animate-delay-100">
+            <p className="text-body-large mb-12 max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
               Everything you need to know about Excali Organizer
             </p>
           </div>
 
-          <div className="space-y-4">
+          <div className="max-w-3xl mx-auto">
             {faqs.map((faq, index) => (
-              <div key={index} className={`card animate-fade-in-up animate-delay-${(index + 1) * 50}`}>
-                <button
-                  className="w-full text-left p-6 focus:outline-none mobile-tap-feedback"
-                  onClick={() => toggleFAQ(index)}
-                >
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-heading-3 pr-8">{faq.question}</h3>
+              <div key={index} className={`mb-6 animate-fade-in-up animate-delay-${(index % 5) + 1}00`}>
+                <div className={`faq-item group ${openFAQ === index ? 'faq-expanded' : ''}`}>
+                  <button
+                    className="w-full py-6 px-8 text-left flex justify-between items-center"
+                    onClick={() => toggleFAQ(index)}
+                  >
+                    <span className="text-heading-3 pr-4 group-hover:text-primary">
+                      {faq.question}
+                    </span>
                     <svg
-                      className={`w-6 h-6 text-gray-500 transform transition-transform duration-300 faq-chevron ${openFAQ === index ? 'rotate-180' : ''}`}
+                      className={`w-5 h-5 flex-shrink-0 faq-chevron transition-transform duration-300 ease-out ${openFAQ === index ? 'rotate-180 text-primary' : 'text-text-muted group-hover:text-primary'}`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
-                  </div>
-                  {openFAQ === index && (
-                    <div className="mt-4 pt-4 border-t" style={{ borderColor: 'var(--color-border)' }}>
-                      <p className="text-body">{faq.answer}</p>
+                  </button>
+                  <div className={`grid transition-all duration-300 ease-out ${openFAQ === index ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                    <div className="overflow-hidden">
+                      <div className="px-8 pb-8 pt-2">
+                        <p className="text-body leading-relaxed text-text-secondary">
+                          {faq.answer}
+                        </p>
+                      </div>
                     </div>
-                  )}
-                </button>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -461,39 +706,50 @@ export const Home = () => {
       </section>
 
       {/* Footer */}
-      <footer className="section-compact" style={{ backgroundColor: 'var(--color-footer)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 mb-12">
-            <div className="md:col-span-2">
-              <div className="flex items-center space-x-3 mb-4">
-                <img src="/vite.svg" alt="Excali Organizer" className="w-8 h-8" />
-                <span className="text-xl font-bold gradient-text-static">Excali Organizer</span>
+      <footer className="section-compact border-t" style={{ backgroundColor: 'var(--color-footer)', borderColor: 'var(--color-border)' }}>
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="col-span-1 md:col-span-2">
+              <h3 className="text-heading-2 mb-4 gradient-text-static">Excali Organizer</h3>
+              <p className="text-body mb-6">
+                Transform your Excalidraw experience with professional organization tools.
+                Completely free, privacy-focused, and open source.
+              </p>
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => handleCTAClick('Get Started', 'footer')}
+                  className="btn-primary"
+                >
+                  Get Started
+                </button>
+                <button
+                  onClick={() => handleCTAClick('GitHub', 'footer')}
+                  className="btn-secondary"
+                >
+                  GitHub
+                </button>
               </div>
-              <p className="text-body mb-4">
-                Transform your Excalidraw experience with professional organization, unlimited storage, and powerful project management tools.
-              </p>
-              <p className="text-body-small">
-                Open source, privacy-first, and completely free forever.
-              </p>
             </div>
 
             <div>
-              <h4 className="text-heading-3 mb-4">Product</h4>
-              <ul className="space-y-2">
-                <li><a href="#features" className="text-body-small hover:text-primary transition-colors link-hover">Features</a></li>
-                <li><a href="#workflow" className="text-body-small hover:text-primary transition-colors link-hover">How it Works</a></li>
-                <li><a href="#use-cases" className="text-body-small hover:text-primary transition-colors link-hover">Use Cases</a></li>
-                <li><a href="#faq" className="text-body-small hover:text-primary transition-colors link-hover">FAQ</a></li>
+              <h4 className="text-heading-3 mb-4">Features</h4>
+              <ul className="space-y-2 text-body">
+                <li>Project Management</li>
+                <li>Advanced Search</li>
+                <li>Unlimited Storage</li>
+                <li>Enhanced Workflow</li>
+                <li>Privacy & Security</li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-heading-3 mb-4">Resources</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-body-small hover:text-primary transition-colors link-hover">Documentation</a></li>
-                <li><a href="#" className="text-body-small hover:text-primary transition-colors link-hover">GitHub</a></li>
-                <li><a href="#" className="text-body-small hover:text-primary transition-colors link-hover">Community</a></li>
-                <li><a href="#" className="text-body-small hover:text-primary transition-colors link-hover">Support</a></li>
+              <h4 className="text-heading-3 mb-4">Support</h4>
+              <ul className="space-y-2 text-body">
+                <li>Documentation</li>
+                <li>FAQ</li>
+                <li>Community</li>
+                <li>Bug Reports</li>
+                <li>Feature Requests</li>
               </ul>
             </div>
           </div>
@@ -510,6 +766,7 @@ export const Home = () => {
           </div>
         </div>
       </footer>
+
     </div>
   )
 }
