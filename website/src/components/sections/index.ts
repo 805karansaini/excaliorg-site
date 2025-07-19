@@ -1,0 +1,7 @@
+export { HeroSection } from './HeroSection'
+export { FeaturesSection } from './FeaturesSection'
+export { ProblemSolutionSection } from './ProblemSolutionSection'
+export { WorkflowSection } from './WorkflowSection'
+export { UseCasesSection } from './UseCasesSection'
+export { FAQSection } from './FAQSection'
+export { FooterSection } from './FooterSection'

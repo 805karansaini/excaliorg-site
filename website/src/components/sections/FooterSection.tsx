@@ -1,0 +1,82 @@
+import { Link } from 'react-router-dom'
+import { trackCTAClick, trackStoreRedirect } from '../../utils/analytics'
+
+interface FooterSectionProps {
+  onCTAClick?: (buttonText: string, location: string) => void
+}
+
+export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
+  const handleCTAClick = (buttonText: string, location: string) => {
+    trackCTAClick(buttonText, location)
+    trackStoreRedirect(location)
+    if (onCTAClick) {
+      onCTAClick(buttonText, location)
+    } else {
+      // Default behavior - open download page in new tab
+      window.open('https://excali.org', '_blank', 'noopener,noreferrer')
+    }
+  }
+
+  return (
+    <footer className="section-compact border-t" style={{ backgroundColor: 'var(--color-footer)', borderColor: 'var(--color-border)' }}>
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="col-span-1 md:col-span-2">
+            <h3 className="text-heading-2 mb-4 gradient-text-static">Excali Organizer</h3>
+            <p className="text-body mb-6">
+              Transform your Excalidraw experience with professional organization tools.
+              Completely free, privacy-focused, and open source.
+            </p>
+            <div className="flex space-x-4">
+              <button
+                onClick={() => handleCTAClick('Get Started', 'footer')}
+                className="btn-primary"
+              >
+                Get Started
+              </button>
+              <button
+                onClick={() => handleCTAClick('GitHub', 'footer')}
+                className="btn-secondary"
+              >
+                GitHub
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-heading-3 mb-4">Features</h4>
+            <ul className="space-y-2 text-body">
+              <li>Project Management</li>
+              <li>Advanced Search</li>
+              <li>Unlimited Storage</li>
+              <li>Enhanced Workflow</li>
+              <li>Privacy & Security</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-heading-3 mb-4">Support</h4>
+            <ul className="space-y-2 text-body">
+              <li>Documentation</li>
+              <li>FAQ</li>
+              <li>Community</li>
+              <li>Bug Reports</li>
+              <li>Feature Requests</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center" style={{ borderColor: 'var(--color-border)' }}>
+          <p className="text-body-small">
+            © 2025 Excali Organizer. Open source under MIT license.
+          </p>
+          <div className="flex space-x-6 mt-4 md:mt-0">
+            <Link to="/policies/privacy-policy" className="text-body-small hover:text-primary transition-colors link-hover">Privacy Policy</Link>
+            <a href="#" className="text-body-small hover:text-primary transition-colors link-hover">Terms of Service</a>
+            <a href="#" className="text-body-small hover:text-primary transition-colors link-hover">Open Source</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
