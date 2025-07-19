@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderBar } from '../components/HeaderBar';
+import { FooterSection } from '../components/sections/FooterSection';
 import { ArrowLeft } from 'lucide-react';
 
 export const PrivacyPolicy = () => {
@@ -265,6 +266,8 @@ export const PrivacyPolicy = () => {
           </div>
         </div>
       </main>
+      
+      <FooterSection />
     </div>
   );
 };
