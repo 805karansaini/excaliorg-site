@@ -21,9 +21,10 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
       <div className="container mx-auto px-4">
 
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-heading-2 mb-4 animate-fade-in-up">
-            Get Started in Minutes
+        <div className="text-center mb-20">
+          <h2 className="text-heading-1 mb-6 animate-fade-in-up">
+            Get Started in{' '}
+            <span className="gradient-text-static">3 Simple Steps</span>
           </h2>
           <p className="text-body-large max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
             No account required - works immediately after installation
@@ -36,51 +37,45 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
 
             {/* Step 1: Install */}
             <div className="animate-fade-in-up animate-delay-200">
-              <div className="card-modern p-6 h-full">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="flex-shrink-0 w-10 h-10 text-white rounded-full flex items-center justify-center font-bold text-lg step-number" style={{ backgroundColor: 'var(--color-primary)' }}>
+              <div className="card-modern p-6 h-full text-center">
+                <div className="mb-6">
+                  <div className="w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-xl step-number mx-auto mb-4" style={{ backgroundColor: 'var(--color-primary)' }}>
                     1
                   </div>
-                  <div>
-                    <h3 className="text-heading-3 mb-2">Install Extension</h3>
-                    <p className="text-body">
-                      Add Excali Organizer to your browser from the Chrome Web Store
-                    </p>
-                  </div>
+                  <h3 className="text-2xl font-bold mb-3">Install Extension</h3>
+                  <p className="text-body-large text-gray-600 dark:text-gray-400">
+                    Get Excali Organizer from the Chrome Web Store with just one click. No registration required.
+                  </p>
                 </div>
               </div>
             </div>
 
             {/* Step 2: Visit */}
             <div className="animate-fade-in-up animate-delay-300">
-              <div className="card-modern p-6 h-full">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="flex-shrink-0 w-10 h-10 text-white rounded-full flex items-center justify-center font-bold text-lg step-number" style={{ backgroundColor: 'var(--color-primary)' }}>
+              <div className="card-modern p-6 h-full text-center">
+                <div className="mb-6">
+                  <div className="w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-xl step-number mx-auto mb-4" style={{ backgroundColor: 'var(--color-primary)' }}>
                     2
                   </div>
-                  <div>
-                    <h3 className="text-heading-3 mb-2">Visit Excalidraw</h3>
-                    <p className="text-body">
-                      Go to excalidraw.com and see the organization panel appear automatically
-                    </p>
-                  </div>
+                  <h3 className="text-2xl font-bold mb-3">Visit Excalidraw</h3>
+                  <p className="text-body-large text-gray-600 dark:text-gray-400">
+                    Open excalidraw.com and watch the organization panel appear seamlessly in your interface.
+                  </p>
                 </div>
               </div>
             </div>
 
             {/* Step 3: Start Organizing */}
             <div className="animate-fade-in-up animate-delay-400">
-              <div className="card-modern p-6 h-full">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="flex-shrink-0 w-10 h-10 text-white rounded-full flex items-center justify-center font-bold text-lg step-number" style={{ backgroundColor: 'var(--color-primary)' }}>
+              <div className="card-modern p-6 h-full text-center">
+                <div className="mb-6">
+                  <div className="w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-xl step-number mx-auto mb-4" style={{ backgroundColor: 'var(--color-primary)' }}>
                     3
                   </div>
-                  <div>
-                    <h3 className="text-heading-3 mb-2">Start Organizing</h3>
-                    <p className="text-body">
-                      Create projects, organize drawings with colors and names, and use search to find anything instantly
-                    </p>
-                  </div>
+                  <h3 className="text-2xl font-bold mb-3">Start Organizing</h3>
+                  <p className="text-body-large text-gray-600 dark:text-gray-400">
+                    Create unlimited projects, organize with custom colors, and find any drawing instantly with powerful search.
+                  </p>
                 </div>
               </div>
             </div>
@@ -103,7 +98,9 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
 
           <div className="relative z-10">
             <h3 className="text-heading-2 mb-4 animate-fade-in-up">
-              Ready to Transform Your Workflow?
+              Ready to{' '}
+              <span className="gradient-text-static">Supercharge</span>{' '}
+              Your Creative Workflow?
             </h3>
             <p className="text-body-large mb-8 max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
               Join thousands of creators who've already upgraded their Excalidraw experience.
