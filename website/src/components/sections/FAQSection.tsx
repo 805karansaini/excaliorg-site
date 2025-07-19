@@ -52,8 +52,9 @@ export const FAQSection = () => {
     <section id="faq" className="section" style={{ backgroundColor: 'var(--color-faq)' }}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-heading-2 mb-4 animate-fade-in-up">
-            Frequently Asked Questions
+          <h2 className="text-heading-1 mb-6 animate-fade-in-up">
+            Frequently Asked{' '}
+            <span className="gradient-text-static">Questions</span>
           </h2>
           <p className="text-body-large mb-12 max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
             Everything you need to know about Excali Organizer
