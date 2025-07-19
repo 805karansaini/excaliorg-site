@@ -95,8 +95,7 @@ class AnalyticsBatcher {
       'cta_click',
       'store_redirect',
       'page_view',
-      'session_start',
-      'conversion'
+      'session_start'
     ];
     
     return highPriorityEvents.includes(eventName);
@@ -173,7 +172,7 @@ class AnalyticsBatcher {
    * Generate unique batch ID
    */
   private generateBatchId(): string {
-    return `batch_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `batch_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
   }
 
   /**
