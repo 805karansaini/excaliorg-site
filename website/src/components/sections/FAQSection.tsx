@@ -56,7 +56,7 @@ export const FAQSection = () => {
             Frequently Asked{' '}
             <span className="gradient-text-static">Questions</span>
           </h2>
-          <p className="text-body-large mb-12 max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
+          <p className="hero-subtitle mb-12 animate-fade-in-up animate-delay-100">
             Everything you need to know about Excali Organizer
           </p>
         </div>

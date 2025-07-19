@@ -9,9 +9,8 @@ export const ProblemSolutionSection = () => {
             From Chaos to{' '}
             <span className="gradient-text-static">Organized Excellence</span>
           </h2>
-          <p className="text-heading-3 max-w-4xl mx-auto animate-fade-in-up animate-delay-100">
-            Excalidraw is amazing for creating diagrams, but managing multiple canvases can become overwhelming.
-            Excali Organizer transforms your creative workflow.
+          <p className="hero-subtitle mb-12 animate-fade-in-up animate-delay-100">
+            Excalidraw unlocks creativity, but Excali Organizer keeps everything organized and easy to navigate.
           </p>
         </div>
 

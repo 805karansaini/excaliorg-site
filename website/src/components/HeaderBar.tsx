@@ -131,7 +131,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                 gradient-text-static
                 transition-all duration-300
               ">
-                Excali Org
+                Excali Organizer
               </span>
             </div>
 

@@ -26,7 +26,7 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
             Get Started in{' '}
             <span className="gradient-text-static">3 Simple Steps</span>
           </h2>
-          <p className="text-body-large max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
+          <p className="hero-subtitle mb-12 animate-fade-in-up animate-delay-100">
             No account required - works immediately after installation
           </p>
         </div>
@@ -119,21 +119,6 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
-              <div className="text-center">
-                <div className="text-2xl font-bold mb-2 text-heading-3">Unlimited</div>
-                <div className="text-body">Canvases supported</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold mb-2 text-heading-3">100%</div>
-                <div className="text-body">Free & Open Source</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold mb-2 text-heading-3">Chrome</div>
-                <div className="text-body">+ All Chromium browsers</div>
-              </div>
             </div>
           </div>
         </div>

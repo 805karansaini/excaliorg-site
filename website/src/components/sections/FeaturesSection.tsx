@@ -6,7 +6,7 @@ export const FeaturesSection = () => {
           <h2 className="text-heading-2 mb-4 animate-fade-in-up">
             Everything You Need to Organize Your Creative Work
           </h2>
-          <p className="text-body-large max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
+          <p className="hero-subtitle mb-12 animate-fade-in-up animate-delay-100">
             Transform your Excalidraw experience with professional-grade tools that keep your creativity flowing.
           </p>
         </div>

@@ -17,7 +17,7 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
     }
   }
 
-  const features = ['Project Management', 'Advanced Search', 'Unlimited Storage', 'Privacy & Security']
+  const features = ['Project Management', 'Advanced Search', 'Unlimited Storage', 'Privacy & Security', 'High Performance']
   const support = ['FAQ', 'Documentation', 'Community', 'Bug Reports', 'Feature Requests']
 
   const FeaturesList = () => (
@@ -72,7 +72,7 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
                 </button>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-8">
               <FeaturesList />
               <SupportList />
@@ -82,7 +82,7 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
           {/* Desktop Layout */}
           <div className="hidden md:flex md:gap-16">
             <div className="flex-1">
-              <h4 className="text-heading-3 mb-4">
+              <h4 className="text-heading-2 mb-4">
                 Excali{' '}
                 <span className="gradient-text-static">Organizer</span>
               </h4>
@@ -105,7 +105,7 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
                 </button>
               </div>
             </div>
-            
+
             <div className="flex gap-16">
               <FeaturesList />
               <SupportList />
