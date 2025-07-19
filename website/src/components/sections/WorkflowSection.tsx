@@ -17,7 +17,7 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
   }
 
   return (
-    <section id="getting-started" className="section relative overflow-hidden" style={{ backgroundColor: 'var(--color-workflow)' }}>
+    <section id="getting-started" className="section relative overflow-hidden" style={{ background: 'var(--color-workflow)' }}>
       <div className="container mx-auto px-4">
 
         {/* Section Header */}

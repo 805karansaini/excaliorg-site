@@ -49,7 +49,7 @@ export const FAQSection = () => {
   }
 
   return (
-    <section id="faq" className="section" style={{ backgroundColor: 'var(--color-faq)' }}>
+    <section id="faq" className="section" style={{ background: 'var(--color-faq)' }}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-heading-1 mb-6 animate-fade-in-up">

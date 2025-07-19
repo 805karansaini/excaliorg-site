@@ -1,6 +1,6 @@
 export const FeaturesSection = () => {
   return (
-    <section id="features" className="section" style={{ backgroundColor: 'var(--color-workflow)' }}>
+    <section id="features" className="section" style={{ background: 'var(--color-features)' }}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-heading-2 mb-4 animate-fade-in-up">

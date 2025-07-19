@@ -43,7 +43,7 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
   )
 
   return (
-    <footer className="section-compact border-t" style={{ backgroundColor: 'var(--color-footer)', borderColor: 'var(--color-border)' }}>
+    <footer className="section-compact border-t" style={{ background: 'var(--color-footer)', borderColor: 'var(--color-border)' }}>
       <div className="container mx-auto px-4">
         <div className="space-y-8 md:space-y-0">
           {/* Mobile Layout */}

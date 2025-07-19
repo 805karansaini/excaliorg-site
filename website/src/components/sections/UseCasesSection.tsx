@@ -1,6 +1,6 @@
 export const UseCasesSection = () => {
   return (
-    <section id="use-cases" className="section" style={{ backgroundColor: 'var(--color-showcase)' }}>
+    <section id="use-cases" className="section" style={{ background: 'var(--color-usecases)' }}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-heading-1 mb-6 animate-fade-in-up">

@@ -31,14 +31,14 @@
   --color-border: #e2e8f0;
   --color-success: #059669;
 
-  /* Section Backgrounds */
+  /* Section Backgrounds - Alternating Pattern */
   --color-hero: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f0f9ff 100%);
-  --color-features: #ffffff;
-  --color-workflow: #f8fafc;
-  --color-cta: #ffffff;
-  --color-showcase: #f8fafc;
+  --color-solution: #ffffff;
+  --color-features: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%);
+  --color-workflow: #ffffff; 
+  --color-usecases: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%);
   --color-faq: #ffffff;
-  --color-footer: #f8fafc;
+  --color-footer: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%);
 
   /* Glassmorphism */
   --glass-bg: rgba(255, 255, 255, 0.8);
@@ -61,14 +61,14 @@
     --color-surface-50: #1e293b;
     --color-text-subtle: #64748b;
 
-    /* Section Backgrounds */
+    /* Section Backgrounds - Alternating Pattern */
     --color-hero: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c1222 100%);
-    --color-features: #0f172a;
-    --color-workflow: #1e293b;
-    --color-cta: #0f172a;
-    --color-showcase: #1e293b;
+    --color-solution: #0f172a;
+    --color-features: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
+    --color-workflow: #0f172a;
+    --color-usecases: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
     --color-faq: #0f172a;
-    --color-footer: #1e293b;
+    --color-footer: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
 
     /* Override Glassmorphism */
     --glass-bg: rgba(30, 41, 59, 0.8);
@@ -90,12 +90,12 @@
   --color-surface-50: #1e293b;
   --color-text-subtle: #64748b;
   --color-hero: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c1222 100%);
-  --color-features: #0f172a;
-  --color-workflow: #1e293b;
-  --color-cta: #0f172a;
-  --color-showcase: #1e293b;
+  --color-solution: #0f172a;
+  --color-features: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
+  --color-workflow: #0f172a;
+  --color-usecases: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
   --color-faq: #0f172a;
-  --color-footer: #1e293b;
+  --color-footer: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
   --glass-bg: rgba(30, 41, 59, 0.8);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -113,12 +113,12 @@
   --color-surface-50: #f8fafc;
   --color-text-subtle: #94a3b8;
   --color-hero: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f0f9ff 100%);
-  --color-features: #ffffff;
-  --color-workflow: #f8fafc;
-  --color-cta: #ffffff;
-  --color-showcase: #f8fafc;
+  --color-solution: #ffffff;
+  --color-features: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%);
+  --color-workflow: #ffffff;
+  --color-usecases: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%);
   --color-faq: #ffffff;
-  --color-footer: #f8fafc;
+  --color-footer: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%);
   --glass-bg: rgba(255, 255, 255, 0.8);
   --glass-border: rgba(255, 255, 255, 0.3);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);

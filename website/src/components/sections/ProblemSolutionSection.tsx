@@ -1,6 +1,6 @@
 export const ProblemSolutionSection = () => {
   return (
-    <section id="problem-solution" className="section relative" style={{ backgroundColor: 'var(--color-features)' }}>
+    <section id="problem-solution" className="section relative" style={{ background: 'var(--color-solution)' }}>
       <div className="container mx-auto px-4">
 
         {/* Section Header */}
