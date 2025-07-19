@@ -51,7 +51,7 @@ export const HeroSection = ({ onCTAClick }: HeroSectionProps) => {
                 <div className="text-2xl feature-icon emoji">🗂️</div>
                 <div className="text-left">
                   <h3 className="text-heading-3">Smart Organization</h3>
-                  <p className="text-body-small">Group drawings into color-coded projects</p>
+                  <p className="text-body-small">Group canvases into color-coded projects</p>
                 </div>
               </div>
             </div>
@@ -63,7 +63,7 @@ export const HeroSection = ({ onCTAClick }: HeroSectionProps) => {
                 <div className="text-2xl feature-icon emoji">🔍</div>
                 <div className="text-left">
                   <h3 className="text-heading-3">Instant Search</h3>
-                  <p className="text-body-small">Find any drawing in seconds</p>
+                  <p className="text-body-small">Find any canvas in seconds</p>
                 </div>
               </div>
             </div>

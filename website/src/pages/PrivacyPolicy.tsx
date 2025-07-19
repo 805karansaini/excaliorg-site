@@ -7,7 +7,7 @@ export const PrivacyPolicy = () => {
   useEffect(() => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
-    
+
     // Update document title
     document.title = 'Privacy Policy - Excali Organizer';
   }, []);
@@ -15,14 +15,14 @@ export const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <HeaderBar />
-      
+
       {/* Main Content */}
       <main className="pt-24 pb-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back Navigation */}
           <div className="mb-8">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="inline-flex items-center text-body hover:text-primary transition-colors duration-300 group"
             >
               <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
@@ -40,7 +40,7 @@ export const PrivacyPolicy = () => {
 
           {/* Content */}
           <div className="prose prose-gray dark:prose-invert max-w-none">
-            
+
             {/* Introduction */}
             <section className="mb-12">
               <h2 className="text-heading-2 mb-6">Introduction</h2>
@@ -58,7 +58,7 @@ export const PrivacyPolicy = () => {
                     <span className="w-8 h-8 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mr-3 text-sm font-bold">1</span>
                     Local-First
                   </h3>
-                  <p className="text-body">Your drawings and projects are stored locally on your device</p>
+                  <p className="text-body">Your canvases and projects are stored locally on your device</p>
                 </div>
                 <div className="card p-6">
                   <h3 className="text-heading-3 mb-3 flex items-center">
@@ -87,7 +87,7 @@ export const PrivacyPolicy = () => {
             {/* What Data We Collect */}
             <section className="mb-12">
               <h2 className="text-heading-2 mb-6">What Data We Collect</h2>
-              
+
               <div className="mb-8">
                 <h3 className="text-heading-3 mb-4">Website Analytics (This Website Only)</h3>
                 <p className="text-body mb-4">
@@ -110,7 +110,7 @@ export const PrivacyPolicy = () => {
                   The Excali Organizer extension operates with a privacy-first approach:
                 </p>
                 <ul className="list-disc list-inside text-body space-y-2 ml-4">
-                  <li><strong>Your Drawings:</strong> Never collected, transmitted, or stored on our servers</li>
+                  <li><strong>Your Canvases:</strong> Never collected, transmitted, or stored on our servers</li>
                   <li><strong>Project Data:</strong> Stored locally in your browser using secure storage APIs</li>
                   <li><strong>Preferences:</strong> Theme settings and organizational preferences stored locally</li>
                   <li><strong>Usage Analytics:</strong> We may collect anonymous feature usage to improve the extension (with your consent)</li>
@@ -124,7 +124,7 @@ export const PrivacyPolicy = () => {
               <div className="card-feature p-6">
                 <ul className="list-disc list-inside text-body space-y-2">
                   <li>Personal identifying information (name, email, etc.)</li>
-                  <li>Your Excalidraw drawings or creative content</li>
+                  <li>Your Excalidraw canvases or creative content</li>
                   <li>Login credentials or account information</li>
                   <li>Detailed browsing history outside of excalidraw.com usage</li>
                   <li>Any data that could identify you personally</li>
@@ -135,7 +135,7 @@ export const PrivacyPolicy = () => {
             {/* Your Rights and Choices */}
             <section className="mb-12">
               <h2 className="text-heading-2 mb-6">Your Rights and Choices</h2>
-              
+
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="card p-6">
                   <h3 className="text-heading-3 mb-4">Cookie Preferences</h3>
@@ -246,7 +246,7 @@ export const PrivacyPolicy = () => {
               <h2 className="text-heading-2 mb-6">Open Source Commitment</h2>
               <div className="card p-6">
                 <p className="text-body">
-                  Excali Organizer is an open-source project. You can review our code, contribute improvements, 
+                  Excali Organizer is an open-source project. You can review our code, contribute improvements,
                   and verify our privacy practices at our GitHub repository.
                 </p>
               </div>
@@ -255,10 +255,10 @@ export const PrivacyPolicy = () => {
             {/* Last Updated */}
             <section className="text-center py-8 border-t" style={{ borderColor: 'var(--color-border)' }}>
               <p className="text-body-small text-gray-600 dark:text-gray-400">
-                Last Updated: {new Date().toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
+                Last Updated: {new Date().toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
                 })}
               </p>
             </section>

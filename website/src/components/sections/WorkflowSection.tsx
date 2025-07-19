@@ -74,7 +74,7 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
                   </div>
                   <h3 className="text-2xl font-bold mb-3">Start Organizing</h3>
                   <p className="text-body-large text-gray-600 dark:text-gray-400">
-                    Create unlimited projects, organize with custom colors, and find any drawing instantly with powerful search.
+                    Create unlimited projects, organize with custom colors, and find any canvas instantly with powerful search.
                   </p>
                 </div>
               </div>

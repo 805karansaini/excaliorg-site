@@ -7,7 +7,7 @@ export const FAQSection = () => {
   const faqs = [
     {
       question: "How does Excali Organizer enhance my Excalidraw experience?",
-      answer: "Excali Organizer transforms Excalidraw into a professional workspace by adding unlimited storage, project management, advanced search, and organization features. You can create color-coded projects, instantly search through all your drawings, and never lose your work with automatic saving."
+      answer: "Excali Organizer transforms Excalidraw into a professional workspace by adding unlimited storage, project management, advanced search, and organization features. You can create color-coded projects, instantly search through all your canvases, and never lose your work with automatic saving."
     },
     {
       question: "Is my data completely private and secure?",
@@ -18,12 +18,12 @@ export const FAQSection = () => {
       answer: "Simply install the Chrome extension from the Web Store (coming soon) or load it manually. Once installed, visit excalidraw.com and you'll see the organization panel automatically appear. No setup required - start creating projects immediately!"
     },
     {
-      question: "Can I organize my existing Excalidraw drawings?",
-      answer: "Yes! Excali Organizer automatically detects all your existing drawings and lets you organize them into projects. You can drag and drop drawings into color-coded projects, add descriptions, and search through everything instantly."
+      question: "Can I organize my existing Excalidraw canvases?",
+      answer: "Yes! Excali Organizer automatically detects all your existing canvases and lets you organize them into projects. You can drag and drop canvases into color-coded projects, add descriptions, and search through everything instantly."
     },
     {
       question: "Does it affect Excalidraw's performance?",
-      answer: "Not at all! Excali Organizer is built with performance in mind. It uses minimal memory, runs in the background, and doesn't interfere with Excalidraw's core functionality. You'll experience the same smooth drawing experience with added organization power."
+      answer: "Not at all! Excali Organizer is built with performance in mind. It uses minimal memory, runs in the background, and doesn't interfere with Excalidraw's core functionality. You'll experience the same smooth canvas experience with added organization power."
     },
     {
       question: "What happens if I switch devices or browsers?",
@@ -31,7 +31,7 @@ export const FAQSection = () => {
     },
     {
       question: "Are there any storage limits?",
-      answer: "No storage limits! Excali Organizer uses advanced storage APIs that can handle thousands of drawings and projects without performance issues."
+      answer: "No storage limits! Excali Organizer uses advanced storage APIs that can handle thousands of canvases and projects without performance issues."
     },
     {
       question: "Is this really completely free?",
