@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderBar } from '../components/HeaderBar';
+import { ScrollToTop } from '../components/ScrollToTop';
 import { FooterSection } from '../components/sections/FooterSection';
 import { ArrowLeft } from 'lucide-react';
 
@@ -268,6 +269,9 @@ export const PrivacyPolicy = () => {
       </main>
       
       <FooterSection />
+      
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
     </div>
   );
 };

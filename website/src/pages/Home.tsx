@@ -1,5 +1,6 @@
 import React from 'react'
 import { HeaderBar } from '../components/HeaderBar'
+import { ScrollToTop } from '../components/ScrollToTop'
 import { trackCTAClick, trackStoreRedirect } from '../utils/analytics'
 import { useScrollTracking } from '../hooks/useScrollTracking'
 import { privacyManager } from '../utils/privacy'
@@ -72,6 +73,9 @@ export const Home = () => {
 
       {/* Footer */}
       <FooterSection onCTAClick={handleCTAClick} />
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
 
     </div>
   )

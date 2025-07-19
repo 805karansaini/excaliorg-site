@@ -573,3 +573,13 @@ nav button:active {
 .header-btn:active {
   transform: scale(0.95);
 }
+
+/* Horizontal Scroll Utilities */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
