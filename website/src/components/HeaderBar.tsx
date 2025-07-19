@@ -40,7 +40,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
 
   const navItems = [
     { name: 'Home', href: '#hero' },
-    { name: 'Problem', href: '#problem-solution' },
+    { name: 'Solution', href: '#problem-solution' },
     { name: 'Features', href: '#features' },
     { name: 'Getting Started', href: '#getting-started' },
     { name: 'Use Cases', href: '#use-cases' },
@@ -178,8 +178,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
               <button
                 onClick={handleThemeToggle}
                 className={`relative p-2 rounded-full group header-btn
-                  ${theme === 'light' 
-                    ? 'bg-gray-100 border border-gray-300 hover:bg-gray-200' 
+                  ${theme === 'light'
+                    ? 'bg-gray-100 border border-gray-300 hover:bg-gray-200'
                     : 'bg-gray-800 border border-gray-600 hover:bg-gray-700'
                   }`}
                 aria-label="Toggle theme"
@@ -207,8 +207,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
               <button
                 onClick={toggleMobileMenu}
                 className={`lg:hidden p-2 rounded-full group header-btn
-                  ${theme === 'light' 
-                    ? 'bg-gray-100 border border-gray-300 hover:bg-gray-200' 
+                  ${theme === 'light'
+                    ? 'bg-gray-100 border border-gray-300 hover:bg-gray-200'
                     : 'bg-gray-800 border border-gray-600 hover:bg-gray-700'
                   }`}
                 aria-label="Toggle menu"
