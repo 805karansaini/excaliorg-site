@@ -3,16 +3,29 @@ import { trackScrollDepth, trackSectionView } from '../utils/analytics';
 
 export const useScrollTracking = () => {
   useEffect(() => {
-    let hasTracked25 = false;
     let hasTracked50 = false;
-    let hasTracked75 = false;
     let hasTracked90 = false;
+    let scrollTicking = false;
+    
+    // Batch section view tracking to reduce calls
+    const pendingSectionViews = new Set<string>();
+    let sectionViewTimeout: number;
 
     const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && entry.target.id) {
-            trackSectionView(entry.target.id);
+            // Batch section views to reduce analytics calls
+            pendingSectionViews.add(entry.target.id);
+            
+            clearTimeout(sectionViewTimeout);
+            sectionViewTimeout = setTimeout(() => {
+              // Send batched section views
+              pendingSectionViews.forEach(sectionId => {
+                trackSectionView(sectionId);
+              });
+              pendingSectionViews.clear();
+            }, 1000); // Batch for 1 second
           }
         });
       },
@@ -25,27 +38,27 @@ export const useScrollTracking = () => {
       sectionObserver.observe(section);
     });
 
+    // Optimized scroll handler with throttling and reduced milestones
     const handleScroll = () => {
-      const scrollPercent = Math.round(
-        (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
-      );
+      if (!scrollTicking) {
+        requestAnimationFrame(() => {
+          const scrollPercent = Math.round(
+            (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+          );
 
-      // Track scroll depth milestones
-      if (scrollPercent >= 25 && !hasTracked25) {
-        hasTracked25 = true;
-        trackScrollDepth(25);
-      }
-      if (scrollPercent >= 50 && !hasTracked50) {
-        hasTracked50 = true;
-        trackScrollDepth(50);
-      }
-      if (scrollPercent >= 75 && !hasTracked75) {
-        hasTracked75 = true;
-        trackScrollDepth(75);
-      }
-      if (scrollPercent >= 90 && !hasTracked90) {
-        hasTracked90 = true;
-        trackScrollDepth(90);
+          // Reduced to only 2 milestones for better performance
+          if (scrollPercent >= 50 && !hasTracked50) {
+            hasTracked50 = true;
+            trackScrollDepth(50);
+          }
+          if (scrollPercent >= 90 && !hasTracked90) {
+            hasTracked90 = true;
+            trackScrollDepth(90);
+          }
+          
+          scrollTicking = false;
+        });
+        scrollTicking = true;
       }
     };
 
@@ -54,6 +67,7 @@ export const useScrollTracking = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       sectionObserver.disconnect();
+      clearTimeout(sectionViewTimeout);
     };
   }, []);
 };

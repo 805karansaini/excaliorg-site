@@ -8,9 +8,9 @@ interface TocItem {
 
 const tocItems: TocItem[] = [
     { id: 'hero', title: 'Home' },
+    { id: 'problem-solution', title: 'Solution' },
     { id: 'features', title: 'Features' },
-    { id: 'workflow', title: 'How It Works' },
-    { id: 'installation', title: 'Get Started' },
+    { id: 'getting-started', title: 'Getting Started' },
     { id: 'use-cases', title: 'Use Cases' },
     { id: 'faq', title: 'FAQ' },
 ]

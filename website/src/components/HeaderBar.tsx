@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Moon, Sun, Menu, X, Download, ArrowRight } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 import { trackCTAClick, trackStoreRedirect, trackThemeToggle } from '../utils/analytics'
@@ -9,6 +10,8 @@ interface HeaderBarProps {
 
 export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
   const { theme, toggleTheme } = useTheme()
+  const navigate = useNavigate()
+  const location = useLocation()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
 
@@ -22,11 +25,24 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
     return () => window.removeEventListener('resize', checkDesktop)
   }, [])
 
+  // Handle scrolling to hash when arriving at home page
+  useEffect(() => {
+    if (location.pathname === '/' && location.hash) {
+      const element = document.querySelector(location.hash)
+      if (element) {
+        // Add a small delay to ensure the page has rendered
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }, 100)
+      }
+    }
+  }, [location.pathname, location.hash])
+
   const navItems = [
     { name: 'Home', href: '#hero' },
+    { name: 'Solution', href: '#problem-solution' },
     { name: 'Features', href: '#features' },
-    { name: 'How It Works', href: '#workflow' },
-    { name: 'Get Started', href: '#installation' },
+    { name: 'Getting Started', href: '#getting-started' },
     { name: 'Use Cases', href: '#use-cases' },
     { name: 'FAQ', href: '#faq' }
   ]
@@ -35,11 +51,15 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
     trackCTAClick('Add to Browser', 'header_bar')
     trackStoreRedirect('header_bar')
     // Open download page in new tab
-    window.open('https://dev.excali.org', '_blank', 'noopener,noreferrer')
+    window.open('https://excali.org', '_blank', 'noopener,noreferrer')
   }
 
   const handleLogoClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (location.pathname !== '/') {
+      navigate('/')
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }
 
   const handleThemeToggle = () => {
@@ -48,11 +68,18 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
   }
 
   const handleNavClick = (href: string) => {
-    const element = document.querySelector(href)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
     setIsMobileMenuOpen(false)
+
+    if (location.pathname !== '/') {
+      // If not on home page, navigate to home page with hash
+      navigate(`/${href}`)
+    } else {
+      // If already on home page, just scroll to section
+      const element = document.querySelector(href)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
   }
 
   const toggleMobileMenu = () => {
@@ -62,36 +89,85 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
   return (
     <>
       <header
-        className={`fixed w-full top-0 z-50 glass-header transition-all duration-300 ${className}`}
+        className={`
+          fixed w-full top-0 z-50
+          glass-header
+          transition-all duration-300
+          ${className}
+        `}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-18">
             {/* Logo */}
-            <div className="flex items-center space-x-3 group cursor-pointer" onClick={handleLogoClick}>
+            <div
+              className="
+                flex items-center gap-3
+                group cursor-pointer
+                transition-all duration-300
+              "
+              onClick={handleLogoClick}
+            >
               <div className="relative">
                 <picture>
                   <source srcSet="/icon-64-avif.avif" type="image/avif" />
                   <source srcSet="/icon-64-webp.webp" type="image/webp" />
                   <source srcSet="/icon-64-png.png" type="image/png" />
-                  <img src="/icon-64-png.png" alt="Excali Organizer" className="w-8 h-8" />
+                  <img
+                    src="/icon-64-png.png"
+                    alt="Excali Organizer"
+                    className="w-8 h-8"
+                  />
                 </picture>
-                <div className="absolute inset-0 bg-indigo-600/20 dark:bg-indigo-400/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                <div className="
+                  absolute inset-0
+                  bg-primary-600/20 dark:bg-primary-400/20
+                  rounded-full blur-xl
+                  opacity-0 group-hover:opacity-100
+                  transition-all duration-300
+                " />
               </div>
-              <span className="text-xl font-bold gradient-text-static transition-all duration-300">
+              <span className="
+                text-xl font-bold
+                gradient-text-static
+                transition-all duration-300
+              ">
                 Excali Org
               </span>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden md:flex items-center gap-8">
               {navItems.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => handleNavClick(item.href)}
-                  className="relative text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 group"
+                  className="
+                    relative group
+                    transition-all duration-300
+                    font-medium
+                  "
+                  style={{
+                    color: 'var(--color-text-secondary)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = 'var(--color-primary)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'var(--color-text-secondary)'
+                  }}
                 >
                   {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 transition-all duration-300 group-hover:w-full" />
+                  <span
+                    className="
+                      absolute -bottom-1 left-0
+                      w-0 h-0.5
+                      transition-all duration-300
+                      group-hover:w-full
+                    "
+                    style={{
+                      background: 'linear-gradient(90deg, var(--color-primary), var(--color-secondary))'
+                    }}
+                  />
                 </button>
               ))}
             </nav>
@@ -101,17 +177,11 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
               {/* Theme Toggle */}
               <button
                 onClick={handleThemeToggle}
-                className="relative p-2 rounded-full transition-all duration-300 group"
-                style={{
-                  backgroundColor: theme === 'light' ? '#f3f4f6' : '#1f2937',
-                  border: `1px solid ${theme === 'light' ? '#e5e7eb' : '#374151'}`
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = theme === 'light' ? '#e5e7eb' : '#374151'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = theme === 'light' ? '#f3f4f6' : '#1f2937'
-                }}
+                className={`relative p-2 rounded-full group header-btn
+                  ${theme === 'light'
+                    ? 'bg-gray-100 border border-gray-300 hover:bg-gray-200'
+                    : 'bg-gray-800 border border-gray-600 hover:bg-gray-700'
+                  }`}
                 aria-label="Toggle theme"
               >
                 <div className="relative w-5 h-5">
@@ -136,17 +206,11 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
               {/* Mobile Menu Button */}
               <button
                 onClick={toggleMobileMenu}
-                className="lg:hidden p-2 rounded-full transition-all duration-300 group"
-                style={{
-                  backgroundColor: theme === 'light' ? '#f3f4f6' : '#1f2937',
-                  border: `1px solid ${theme === 'light' ? '#e5e7eb' : '#374151'}`
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = theme === 'light' ? '#e5e7eb' : '#374151'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = theme === 'light' ? '#f3f4f6' : '#1f2937'
-                }}
+                className={`lg:hidden p-2 rounded-full group header-btn
+                  ${theme === 'light'
+                    ? 'bg-gray-100 border border-gray-300 hover:bg-gray-200'
+                    : 'bg-gray-800 border border-gray-600 hover:bg-gray-700'
+                  }`}
                 aria-label="Toggle menu"
               >
                 {isMobileMenuOpen ? (
@@ -165,8 +229,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
       <div className={`lg:hidden fixed top-18 left-0 right-0 z-40 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}>
         <div className={`mx-4 mt-2 rounded-lg shadow-xl border ${theme === 'light'
-            ? 'bg-white border-gray-200'
-            : 'bg-gray-800 border-gray-700'
+          ? 'bg-white border-gray-200'
+          : 'bg-gray-800 border-gray-700'
           }`}>
           <div className="py-4 px-4 space-y-2">
             {navItems.map((item) => (
@@ -174,8 +238,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                 key={item.name}
                 onClick={() => handleNavClick(item.href)}
                 className={`block w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${theme === 'light'
-                    ? 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                    : 'text-gray-300 hover:text-indigo-400 hover:bg-gray-700'
+                  ? 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+                  : 'text-gray-300 hover:text-indigo-400 hover:bg-gray-700'
                   }`}
               >
                 {item.name}

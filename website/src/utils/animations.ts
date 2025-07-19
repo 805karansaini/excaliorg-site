@@ -109,7 +109,7 @@ export class AnimationManager {
   }
 
   /**
-   * Create ripple effect
+   * Create ripple effect - Optimized for performance
    */
   public createRipple(
     element: HTMLElement,
@@ -124,70 +124,120 @@ export class AnimationManager {
     };
 
     const rippleConfig = { ...defaultConfig, ...config };
-    const rect = element.getBoundingClientRect();
 
-    let x: number, y: number;
-    if (event instanceof MouseEvent) {
-      x = event.clientX - rect.left;
-      y = event.clientY - rect.top;
-    } else {
-      const touch = event.touches[0];
-      x = touch.clientX - rect.left;
-      y = touch.clientY - rect.top;
-    }
+    // Use requestAnimationFrame to batch DOM reads and writes
+    requestAnimationFrame(() => {
+      const rect = element.getBoundingClientRect();
 
-    const ripple = document.createElement('div');
-    ripple.className = 'ripple';
-    ripple.style.cssText = `
-      position: absolute;
-      border-radius: 50%;
-      background: ${rippleConfig.color};
-      opacity: ${rippleConfig.opacity};
-      transform: scale(0);
-      animation: ripple-effect ${rippleConfig.duration}ms ease-out;
-      width: ${rippleConfig.size}px;
-      height: ${rippleConfig.size}px;
-      left: ${x - rippleConfig.size / 2}px;
-      top: ${y - rippleConfig.size / 2}px;
-      pointer-events: none;
-      z-index: 1000;
-    `;
+      let x: number, y: number;
+      if (event instanceof MouseEvent) {
+        x = event.clientX - rect.left;
+        y = event.clientY - rect.top;
+      } else {
+        const touch = event.touches[0];
+        x = touch.clientX - rect.left;
+        y = touch.clientY - rect.top;
+      }
 
-    element.appendChild(ripple);
+      const ripple = document.createElement('div');
+      ripple.className = 'ripple';
+      
+      // Use hardware acceleration and will-change for better performance
+      ripple.style.cssText = `
+        position: absolute;
+        border-radius: 50%;
+        background: ${rippleConfig.color};
+        opacity: ${rippleConfig.opacity};
+        transform: scale(0) translate3d(0, 0, 0);
+        animation: ripple-effect ${rippleConfig.duration}ms ease-out;
+        width: ${rippleConfig.size}px;
+        height: ${rippleConfig.size}px;
+        left: ${x - rippleConfig.size / 2}px;
+        top: ${y - rippleConfig.size / 2}px;
+        pointer-events: none;
+        z-index: 1000;
+        will-change: transform, opacity;
+      `;
 
-    setTimeout(() => {
-      ripple.remove();
-    }, rippleConfig.duration);
+      element.appendChild(ripple);
+
+      // Use setTimeout with cleanup check for better performance
+      setTimeout(() => {
+        if (ripple.parentNode) {
+          ripple.remove();
+        }
+      }, rippleConfig.duration);
+    });
 
     trackFeatureUsage('interaction', 'ripple_effect', element.tagName.toLowerCase());
   }
 
   /**
-   * Add magnetic effect to buttons
+   * Add magnetic effect to buttons - Optimized to prevent forced reflows
    */
   public addMagneticEffect(element: HTMLElement, strength: number = 0.3): void {
+    let rect: DOMRect;
+    let rafId: number;
+    let isMouseInside = false;
+
+    // Cache rect on mouse enter and resize
+    const updateRect = () => {
+      rect = element.getBoundingClientRect();
+    };
+
+    const handleMouseEnter = () => {
+      isMouseInside = true;
+      updateRect(); // Cache rect only when needed
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = element.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
+      if (!isMouseInside || !rect) return;
 
-      const moveX = x * strength;
-      const moveY = y * strength;
+      // Cancel previous animation frame
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
 
-      element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      // Use requestAnimationFrame to batch DOM writes
+      rafId = requestAnimationFrame(() => {
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        const moveX = x * strength;
+        const moveY = y * strength;
+
+        // Use transform for hardware acceleration
+        element.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+      });
     };
 
     const handleMouseLeave = () => {
-      element.style.transform = 'translate(0, 0)';
+      isMouseInside = false;
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      // Reset transform with hardware acceleration
+      element.style.transform = 'translate3d(0, 0, 0)';
     };
 
-    element.addEventListener('mousemove', handleMouseMove);
-    element.addEventListener('mouseleave', handleMouseLeave);
+    // Update rect on window resize to handle responsive layouts
+    const handleResize = () => {
+      if (isMouseInside) {
+        updateRect();
+      }
+    };
+
+    element.addEventListener('mouseenter', handleMouseEnter, { passive: true });
+    element.addEventListener('mousemove', handleMouseMove, { passive: true });
+    element.addEventListener('mouseleave', handleMouseLeave, { passive: true });
+    window.addEventListener('resize', handleResize, { passive: true });
 
     // Store handlers for cleanup
     (element as any)._magneticHandlers = {
+      mouseenter: handleMouseEnter,
       mousemove: handleMouseMove,
-      mouseleave: handleMouseLeave
+      mouseleave: handleMouseLeave,
+      resize: handleResize
     };
   }
 
@@ -306,7 +356,7 @@ export class AnimationManager {
   }
 
   /**
-   * Add smooth scroll with custom easing
+   * Add smooth scroll with custom easing - Optimized for performance
    */
   public smoothScrollTo(
     target: Element | string,
@@ -319,6 +369,7 @@ export class AnimationManager {
 
     if (!targetElement) return;
 
+    // Batch DOM reads at the beginning to prevent forced reflows
     const startPosition = window.pageYOffset;
     const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
     const distance = targetPosition - startPosition;

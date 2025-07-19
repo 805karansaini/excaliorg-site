@@ -1,0 +1,248 @@
+/* Critical CSS - Above-the-fold styles only */
+
+/* CSS Variables for immediate theme application */
+:root {
+  /* Primary Brand Colors */
+  --color-primary: #6366f1;
+  --color-primary-hover: #4f46e5;
+  
+  /* Gradient Definitions */
+  --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6);
+  --gradient-text: linear-gradient(135deg, #6366f1, #8b5cf6);
+  
+  /* Animation Variables */
+  --animation-normal: 0.3s;
+  --animation-curve: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Light Theme Base */
+  --color-background: #ffffff;
+  --color-foreground: #0f172a;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-hero: #ffffff;
+  --color-border: #e2e8f0;
+  --color-card: #ffffff;
+  
+  /* Shadow System */
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Dark theme overrides */
+.dark {
+  --color-background: #0f172a;
+  --color-foreground: #f8fafc;
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-hero: #0f172a;
+  --color-border: #334155;
+  --color-card: #1e293b;
+}
+
+/* Essential base styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  transition: background-color var(--animation-normal) var(--animation-curve),
+              color var(--animation-normal) var(--animation-curve);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Critical header styles for immediate render */
+.fixed {
+  position: fixed;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+.glass-header {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dark .glass-header {
+  background: rgba(15, 23, 42, 0.8);
+}
+
+/* Critical layout styles */
+.max-w-7xl {
+  max-width: 80rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.h-18 {
+  height: 4.5rem;
+}
+
+/* Critical typography for hero section */
+.text-heading-1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-text-primary);
+  max-width: 65ch;
+}
+
+.text-body-large {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 65ch;
+}
+
+/* Critical gradient text */
+.gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Critical button styles */
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--animation-normal) var(--animation-curve);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+}
+
+/* Critical spacing utilities */
+.pt-32 {
+  padding-top: 8rem;
+}
+
+.pb-20 {
+  padding-bottom: 5rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.mb-12 {
+  margin-bottom: 3rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Critical mobile styles */
+@media (max-width: 768px) {
+  .text-heading-1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+  
+  .text-body-large {
+    font-size: 1.125rem;
+  }
+  
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .pt-32 {
+    padding-top: 6rem;
+  }
+}
+
+/* Prevent flash of unstyled content */
+.no-js #root {
+  opacity: 0;
+}
+
+/* Critical animation utility */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hide non-critical content during initial load */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+.dark .loading-skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
