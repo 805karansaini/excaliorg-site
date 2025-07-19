@@ -17,55 +17,99 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
     }
   }
 
+  const features = ['Project Management', 'Advanced Search', 'Unlimited Storage', 'Privacy & Security']
+  const support = ['FAQ', 'Documentation', 'Community', 'Bug Reports', 'Feature Requests']
+
+  const FeaturesList = () => (
+    <div>
+      <h4 className="text-heading-3 mb-4">Features</h4>
+      <ul className="space-y-2 text-body">
+        {features.map((feature) => (
+          <li key={feature}>{feature}</li>
+        ))}
+      </ul>
+    </div>
+  )
+
+  const SupportList = () => (
+    <div>
+      <h4 className="text-heading-3 mb-4">Support</h4>
+      <ul className="space-y-2 text-body">
+        {support.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  )
+
   return (
     <footer className="section-compact border-t" style={{ backgroundColor: 'var(--color-footer)', borderColor: 'var(--color-border)' }}>
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="col-span-1 md:col-span-2">
-            <h3 className="text-heading-2 mb-6 animate-fade-in-up">
-              Excali{' '}
-              <span className="gradient-text-static">Organizer</span>
-            </h3>
-            <p className="text-body mb-6">
-              Transform your Excalidraw experience with professional organization tools.
-              Completely free, privacy-focused, and open source.
-            </p>
-            <div className="flex space-x-4">
-              <button
-                onClick={() => handleCTAClick('Get Started', 'footer')}
-                className="btn-primary"
-              >
-                Get Started
-              </button>
-              <button
-                onClick={() => handleCTAClick('GitHub', 'footer')}
-                className="btn-secondary"
-              >
-                GitHub
-              </button>
+        <div className="space-y-8 md:space-y-0">
+          {/* Mobile Layout */}
+          <div className="md:hidden space-y-8">
+            <div>
+              <h4 className="text-heading-3 mb-4">
+                Excali{' '}
+                <span className="gradient-text-static">Organizer</span>
+              </h4>
+              <p className="text-body mb-6">
+                Transform your Excalidraw experience with professional organization tools.
+                Completely free, privacy-focused, and open source.
+              </p>
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => handleCTAClick('Get Started', 'footer')}
+                  className="btn-primary"
+                >
+                  Get Started
+                </button>
+                <button
+                  onClick={() => handleCTAClick('GitHub', 'footer')}
+                  className="btn-secondary"
+                >
+                  GitHub
+                </button>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-8">
+              <FeaturesList />
+              <SupportList />
             </div>
           </div>
 
-          <div>
-            <h4 className="text-heading-3 mb-4">Features</h4>
-            <ul className="space-y-2 text-body">
-              <li>Project Management</li>
-              <li>Advanced Search</li>
-              <li>Unlimited Storage</li>
-              <li>Enhanced Workflow</li>
-              <li>Privacy & Security</li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-heading-3 mb-4">Support</h4>
-            <ul className="space-y-2 text-body">
-              <li>Documentation</li>
-              <li>FAQ</li>
-              <li>Community</li>
-              <li>Bug Reports</li>
-              <li>Feature Requests</li>
-            </ul>
+          {/* Desktop Layout */}
+          <div className="hidden md:flex md:gap-16">
+            <div className="flex-1">
+              <h4 className="text-heading-3 mb-4">
+                Excali{' '}
+                <span className="gradient-text-static">Organizer</span>
+              </h4>
+              <p className="text-body mb-6">
+                Transform your Excalidraw experience with professional organization tools.
+                Completely free, privacy-focused, and open source.
+              </p>
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => handleCTAClick('Get Started', 'footer')}
+                  className="btn-primary"
+                >
+                  Get Started
+                </button>
+                <button
+                  onClick={() => handleCTAClick('GitHub', 'footer')}
+                  className="btn-secondary"
+                >
+                  GitHub
+                </button>
+              </div>
+            </div>
+            
+            <div className="flex gap-16">
+              <FeaturesList />
+              <SupportList />
+            </div>
           </div>
         </div>
 
