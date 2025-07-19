@@ -22,7 +22,10 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
-            <h3 className="text-heading-2 mb-4 gradient-text-static">Excali Organizer</h3>
+            <h3 className="text-heading-2 mb-6 animate-fade-in-up">
+              Excali{' '}
+              <span className="gradient-text-static">Organizer</span>
+            </h3>
             <p className="text-body mb-6">
               Transform your Excalidraw experience with professional organization tools.
               Completely free, privacy-focused, and open source.
@@ -68,7 +71,7 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
 
         <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center" style={{ borderColor: 'var(--color-border)' }}>
           <p className="text-body-small">
-            © 2025 Excali Organizer. Open source under MIT license.
+            © 2025 Excali Organizer. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link to="/policies/privacy-policy" className="text-body-small hover:text-primary transition-colors link-hover">Privacy Policy</Link>
