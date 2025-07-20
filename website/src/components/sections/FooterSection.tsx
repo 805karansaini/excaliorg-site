@@ -18,14 +18,13 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
   }
 
   const features = ['Project Management', 'Advanced Search', 'Unlimited Storage', 'Privacy & Security', 'High Performance']
-  const support = ['FAQ', 'Documentation', 'Community', 'Bug Reports', 'Feature Requests']
 
   const FeaturesList = () => (
     <div>
       <h4 className="text-heading-3 mb-4">Features</h4>
-      <ul className="space-y-2 text-body">
+      <ul className="space-y-2">
         {features.map((feature) => (
-          <li key={feature}>{feature}</li>
+          <li key={feature} className="text-body opacity-80 cursor-default">{feature}</li>
         ))}
       </ul>
     </div>
@@ -34,10 +33,22 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
   const SupportList = () => (
     <div>
       <h4 className="text-heading-3 mb-4">Support</h4>
-      <ul className="space-y-2 text-body">
-        {support.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
+      <ul className="space-y-2">
+        <li>
+          <a href="#faq" className="text-body hover:text-primary transition-colors link-hover cursor-pointer underline-offset-2 hover:underline">
+            FAQ
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/805karansaini/issues" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary transition-colors link-hover cursor-pointer underline-offset-2 hover:underline">
+            Bug Reports
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/805karansaini/issues" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary transition-colors link-hover cursor-pointer underline-offset-2 hover:underline">
+            Feature Requests
+          </a>
+        </li>
       </ul>
     </div>
   )
@@ -59,17 +70,19 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
               </p>
               <div className="flex space-x-4">
                 <button
-                  onClick={() => handleCTAClick('Get Started', 'footer')}
+                  onClick={() => handleCTAClick('Install Now', 'footer')}
                   className="btn-primary"
                 >
-                  Get Started
+                  Install Now
                 </button>
-                <button
-                  onClick={() => handleCTAClick('GitHub', 'footer')}
+                <a
+                  href="https://github.com/805karansaini"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn-secondary"
                 >
                   GitHub
-                </button>
+                </a>
               </div>
             </div>
 
@@ -92,17 +105,19 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
               </p>
               <div className="flex space-x-4">
                 <button
-                  onClick={() => handleCTAClick('Get Started', 'footer')}
+                  onClick={() => handleCTAClick('Install Now', 'footer')}
                   className="btn-primary"
                 >
-                  Get Started
+                  Install Now
                 </button>
-                <button
-                  onClick={() => handleCTAClick('GitHub', 'footer')}
+                <a
+                  href="https://github.com/805karansaini"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn-secondary"
                 >
                   GitHub
-                </button>
+                </a>
               </div>
             </div>
 
@@ -114,13 +129,13 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
         </div>
 
         <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center" style={{ borderColor: 'var(--color-border)' }}>
-          <p className="text-body-small">
+          <p className="text-body">
             © 2025 Excali Organizer. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link to="/policies/privacy-policy" className="text-body-small hover:text-primary transition-colors link-hover">Privacy Policy</Link>
-            <a href="#" className="text-body-small hover:text-primary transition-colors link-hover">Terms of Service</a>
-            <a href="#" className="text-body-small hover:text-primary transition-colors link-hover">Open Source</a>
+            <Link to="/policies/privacy-policy" className="text-body hover:text-primary transition-colors link-hover cursor-pointer underline-offset-2 hover:underline">Privacy Policy</Link>
+            <a href="https://github.com/805karansaini" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary transition-colors link-hover cursor-pointer underline-offset-2 hover:underline">GitHub</a>
+            <a href="https://www.linkedin.com/in/805karansaini/" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary transition-colors link-hover cursor-pointer underline-offset-2 hover:underline">LinkedIn</a>
           </div>
         </div>
       </div>
