@@ -293,78 +293,15 @@ body {
   color: white;
 }
 
-/* Desktop-only button animations */
-@media (min-width: 1024px) {
-  .btn-primary {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .btn-secondary {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
-  }
-
-  .btn-secondary:hover {
-    transform: translateY(-1px);
-  }
-}
-
 /* Card System - Optimized for mobile performance */
 .card-modern {
-  @apply p-6 rounded-2xl border relative overflow-hidden;
+  @apply p-6 rounded-2xl border;
   background-color: var(--color-background);
   border-color: var(--color-border);
   box-shadow: 0 2px 4px -1px rgb(0 0 0 / 0.1);
   /* Mobile performance optimizations */
   contain: layout style;
   will-change: background-color, border-color;
-}
-
-/* Desktop-only animations (1024px and up) */
-@media (min-width: 1024px) {
-  .card-modern {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .card-modern::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .card-modern:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 20px 30px -5px rgb(0 0 0 / 0.15), 0 10px 15px -6px rgb(0 0 0 / 0.1);
-    border-color: rgba(99, 102, 241, 0.3);
-  }
-
-  .card-modern:hover::before {
-    opacity: 1;
-  }
-
-  /* Dark mode enhanced effects for desktop */
-  .dark .card-modern:hover {
-    box-shadow:
-      0 0 0 1px rgba(99, 102, 241, 0.2),
-      0 0 15px rgba(99, 102, 241, 0.3),
-      0 20px 30px -5px rgba(0, 0, 0, 0.4),
-      0 10px 15px -6px rgba(99, 102, 241, 0.15);
-    border-color: rgba(99, 102, 241, 0.5);
-  }
-
-  .dark .card-modern::before {
-    background: radial-gradient(circle at center, rgba(99, 102, 241, 0.1), transparent);
-  }
 }
 
 /* Simplified Icon Effects - No animations for better mobile performance */
@@ -377,48 +314,12 @@ body {
   transform: none !important;
 }
 
-/* Mobile-first: No animations for better performance */
+/* No animations for better performance */
 .cta-arrow,
 .step-number,
 .faq-chevron,
 .mobile-tap-feedback {
   /* No transforms for better mobile performance */
-}
-
-/* Desktop-only interaction animations */
-@media (min-width: 1024px) {
-  .feature-icon {
-    transition: transform 0.3s ease;
-  }
-
-  .card-modern:hover .feature-icon:not(.emoji) {
-    transform: scale(1.1) rotate(5deg);
-  }
-
-  .cta-arrow {
-    transition: transform 0.3s ease;
-  }
-
-  .btn-primary:hover .cta-arrow,
-  .btn-secondary:hover .cta-arrow {
-    transform: translateX(4px);
-  }
-
-  .step-number {
-    transition: transform 0.3s ease;
-  }
-
-  .step-number:hover {
-    transform: scale(1.1);
-  }
-
-  .faq-chevron {
-    transition: transform 0.3s ease;
-  }
-
-  .faq-chevron:hover {
-    transform: scale(1.1);
-  }
 }
 
 /* Simplified mobile interactions - removed transforms for better performance */

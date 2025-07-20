@@ -92,7 +92,6 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
         className={`
           fixed w-full top-0 z-50
           glass-header
-          lg:transition-all lg:duration-300
           ${className}
         `}
       >
@@ -103,7 +102,6 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
               className="
                 flex items-center gap-3
                 group cursor-pointer
-                lg:transition-all lg:duration-300
               "
               onClick={handleLogoClick}
             >
@@ -118,19 +116,11 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                     className="w-8 h-8"
                   />
                 </picture>
-                {/* Desktop-only hover glow effect */}
-                <div className="
-                  absolute inset-0
-                  bg-primary-600/20 dark:bg-primary-400/20
-                  rounded-full blur-xl
-                  opacity-0 group-hover:opacity-100
-                  hidden lg:block lg:transition-all lg:duration-300
-                " />
+                {/* Removed glow effect for performance */}
               </div>
               <span className="
                 text-xl font-bold
                 gradient-text-static
-                lg:transition-all lg:duration-300
               ">
                 Excali Organizer
               </span>
@@ -145,7 +135,6 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                   className="
                     relative group
                     font-medium
-                    lg:transition-all lg:duration-300
                   "
                   style={{
                     color: 'var(--color-text-secondary)'
@@ -158,18 +147,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                   }}
                 >
                   {item.name}
-                  {/* Desktop-only animated underline */}
-                  <span
-                    className="
-                      absolute -bottom-1 left-0
-                      w-0 h-0.5
-                      hidden lg:block lg:transition-all lg:duration-300
-                      group-hover:w-full
-                    "
-                    style={{
-                      background: 'linear-gradient(90deg, var(--color-primary), var(--color-secondary))'
-                    }}
-                  />
+                  {/* Removed animated underline for performance */}
                 </button>
               ))}
             </nav>
@@ -199,9 +177,9 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                   className="flex items-center btn-primary group px-4 py-2 text-sm"
                   style={{ transformOrigin: 'center center' }}
                 >
-                  <Download className="w-3 h-3 mr-1 lg:group-hover:animate-bounce" />
+                  <Download className="w-3 h-3 mr-1" />
                   <span className="relative z-10">Add to Browser</span>
-                  <ArrowRight className="w-3 h-3 ml-1 icon lg:transition-transform lg:duration-300" />
+                  <ArrowRight className="w-3 h-3 ml-1 icon" />
                 </button>
               )}
 
@@ -253,9 +231,9 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                 onClick={handleCTAClick}
                 className="w-full btn-primary group py-3 text-sm"
               >
-                <Download className="w-4 h-4 mr-2 lg:group-hover:animate-bounce" />
+                <Download className="w-4 h-4 mr-2" />
                 <span>Add to Browser</span>
-                <ArrowRight className="w-4 h-4 ml-2 icon lg:transition-transform lg:duration-300" />
+                <ArrowRight className="w-4 h-4 ml-2 icon" />
               </button>
             </div>
           </div>
