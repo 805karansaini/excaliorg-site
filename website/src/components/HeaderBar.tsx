@@ -132,22 +132,10 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                 <button
                   key={item.name}
                   onClick={() => handleNavClick(item.href)}
-                  className="
-                    relative group
-                    font-medium
-                  "
-                  style={{
-                    color: 'var(--color-text-secondary)'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = 'var(--color-primary)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = 'var(--color-text-secondary)'
-                  }}
+                  className="animated-link font-medium"
                 >
                   {item.name}
-                  {/* Removed animated underline for performance */}
+                  <span></span>
                 </button>
               ))}
             </nav>
@@ -205,8 +193,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
         </div>
       </header>
 
-      {/* Mobile Menu - Optimized for performance */}
-      <div className={`lg:hidden fixed top-18 left-0 right-0 z-40 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      {/* Mobile Menu - With smooth animations */}
+      <div className={`lg:hidden fixed top-18 left-0 right-0 z-40 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}>
         <div className={`mx-4 mt-2 rounded-lg shadow-xl border ${theme === 'light'
           ? 'bg-white border-gray-200'
@@ -217,7 +205,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
               <button
                 key={item.name}
                 onClick={() => handleNavClick(item.href)}
-                className={`block w-full text-left px-4 py-3 rounded-lg ${theme === 'light'
+                className={`block w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${theme === 'light'
                   ? 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
                   : 'text-gray-300 hover:text-indigo-400 hover:bg-gray-700'
                   }`}
@@ -231,9 +219,9 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                 onClick={handleCTAClick}
                 className="w-full btn-primary group py-3 text-sm"
               >
-                <Download className="w-4 h-4 mr-2" />
+                <Download className="w-4 h-4 mr-2 group-hover:animate-bounce" />
                 <span>Add to Browser</span>
-                <ArrowRight className="w-4 h-4 ml-2 icon" />
+                <ArrowRight className="w-4 h-4 ml-2 icon transition-transform duration-300" />
               </button>
             </div>
           </div>

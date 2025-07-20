@@ -53,7 +53,7 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex-none w-80 h-full snap-start">
                 <div className="animate-fade-in-up animate-delay-300 h-full">
                   <div className="card-modern p-6 h-full text-center">
@@ -69,7 +69,7 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex-none w-80 h-full snap-start">
                 <div className="animate-fade-in-up animate-delay-400 h-full">
                   <div className="card-modern p-6 h-full text-center">
@@ -154,7 +154,7 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
               Your Creative Workflow?
             </h3>
             <p className="text-body-large mb-8 max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
-              Join thousands of creators who've already upgraded their Excalidraw experience.
+              Take your Excalidraw experience to the next level with powerful tools creators are loving.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-6 mb-12">

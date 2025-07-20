@@ -35,18 +35,21 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
       <h4 className="text-heading-3 mb-4">Support</h4>
       <ul className="space-y-2">
         <li>
-          <a href="#faq" className="text-body hover:text-primary transition-colors link-hover cursor-pointer underline-offset-2 hover:underline">
+          <a href="#faq" className="animated-link">
             FAQ
+            <span></span>
           </a>
         </li>
         <li>
-          <a href="https://github.com/805karansaini/issues" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary transition-colors link-hover cursor-pointer underline-offset-2 hover:underline">
+          <a href="https://github.com/805karansaini/issues" target="_blank" rel="noopener noreferrer" className="animated-link">
             Bug Reports
+            <span></span>
           </a>
         </li>
         <li>
-          <a href="https://github.com/805karansaini/issues" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary transition-colors link-hover cursor-pointer underline-offset-2 hover:underline">
+          <a href="https://github.com/805karansaini/issues" target="_blank" rel="noopener noreferrer" className="animated-link">
             Feature Requests
+            <span></span>
           </a>
         </li>
       </ul>
@@ -133,9 +136,18 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
             © 2025 Excali Organizer. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link to="/policies/privacy-policy" className="text-body hover:text-primary transition-colors link-hover cursor-pointer underline-offset-2 hover:underline">Privacy Policy</Link>
-            <a href="https://github.com/805karansaini" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary transition-colors link-hover cursor-pointer underline-offset-2 hover:underline">GitHub</a>
-            <a href="https://www.linkedin.com/in/805karansaini/" target="_blank" rel="noopener noreferrer" className="text-body hover:text-primary transition-colors link-hover cursor-pointer underline-offset-2 hover:underline">LinkedIn</a>
+            <Link to="/policies/privacy-policy" className="animated-link">
+              Privacy Policy
+              <span></span>
+            </Link>
+            <a href="https://github.com/805karansaini" target="_blank" rel="noopener noreferrer" className="animated-link">
+              GitHub
+              <span></span>
+            </a>
+            <a href="https://www.linkedin.com/in/805karansaini/" target="_blank" rel="noopener noreferrer" className="animated-link">
+              LinkedIn
+              <span></span>
+            </a>
           </div>
         </div>
       </div>
