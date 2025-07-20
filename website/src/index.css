@@ -270,21 +270,18 @@ body {
 /* Button System */
 .btn-primary {
   @apply text-white font-semibold text-lg px-8 py-4 rounded-full border-0 cursor-pointer
-         transition-all duration-300 relative overflow-hidden
          inline-flex items-center justify-center text-center gap-2 min-h-[44px];
   background: var(--gradient-primary);
   box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px) scale(1.02);
   background: var(--gradient-primary-hover);
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.6);
 }
 
 .btn-secondary {
   @apply font-semibold text-lg px-8 py-4 rounded-full border-2 cursor-pointer
-         transition-all duration-300 relative overflow-hidden
          inline-flex items-center justify-center text-center gap-2 min-h-[44px];
   color: var(--color-primary);
   border-color: var(--color-primary);
@@ -294,139 +291,139 @@ body {
 .btn-secondary:hover {
   background: var(--color-primary);
   color: white;
-  transform: translateY(-1px);
 }
 
-/* Card System */
+/* Desktop-only button animations */
+@media (min-width: 1024px) {
+  .btn-primary {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-secondary {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+  }
+
+  .btn-secondary:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* Card System - Optimized for mobile performance */
 .card-modern {
-  @apply p-6 rounded-2xl border transition-all duration-300 relative overflow-hidden;
+  @apply p-6 rounded-2xl border relative overflow-hidden;
   background-color: var(--color-background);
   border-color: var(--color-border);
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 0.1);
+  /* Mobile performance optimizations */
+  contain: layout style;
+  will-change: background-color, border-color;
 }
 
-.card-modern::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), transparent);
-  opacity: 0;
-  transition: opacity var(--animation-normal) var(--animation-curve);
+/* Desktop-only animations (1024px and up) */
+@media (min-width: 1024px) {
+  .card-modern {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .card-modern:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 30px -5px rgb(0 0 0 / 0.15), 0 10px 15px -6px rgb(0 0 0 / 0.1);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  .card-modern:hover::before {
+    opacity: 1;
+  }
+
+  /* Dark mode enhanced effects for desktop */
+  .dark .card-modern:hover {
+    box-shadow:
+      0 0 0 1px rgba(99, 102, 241, 0.2),
+      0 0 15px rgba(99, 102, 241, 0.3),
+      0 20px 30px -5px rgba(0, 0, 0, 0.4),
+      0 10px 15px -6px rgba(99, 102, 241, 0.15);
+    border-color: rgba(99, 102, 241, 0.5);
+  }
+
+  .dark .card-modern::before {
+    background: radial-gradient(circle at center, rgba(99, 102, 241, 0.1), transparent);
+  }
 }
 
-.card-modern:hover {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow: 0 25px 35px -5px rgb(0 0 0 / 0.2), 0 15px 20px -6px rgb(0 0 0 / 0.15);
-  border-color: rgba(99, 102, 241, 0.4);
-}
-
-.card-modern:hover::before {
-  opacity: 1;
-}
-
-/* Dark Mode Enhanced Card Hover Effects */
-.dark .card-modern:hover {
-  transform: translateY(-8px) scale(1.03);
-  /* Multi-layer shadow system for dark mode */
-  box-shadow:
-    0 0 0 1px rgba(99, 102, 241, 0.3),        /* Border glow */
-    0 0 20px rgba(99, 102, 241, 0.4),         /* Outer glow */
-    0 25px 35px -5px rgba(0, 0, 0, 0.6),      /* Depth shadow */
-    0 15px 20px -6px rgba(99, 102, 241, 0.2); /* Colored depth */
-
-  /* Brighter border for dark mode */
-  border-color: rgba(99, 102, 241, 0.7);
-}
-
-/* Enhanced Dark Mode Overlay */
-.dark .card-modern::before {
-  background: radial-gradient(circle at center, rgba(99, 102, 241, 0.15), transparent);
-}
-
-.dark .card-modern:hover::before {
-  opacity: 1;
-}
-
-/* Smooth transitions for dark mode glow effects */
-.dark .card-modern {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Enhanced Interaction Effects */
+/* Simplified Icon Effects - No animations for better mobile performance */
 .feature-icon {
-  @apply transition-transform duration-300;
   display: inline-block;
 }
 
-/* Only animate non-emoji feature icons */
-.card-modern:hover .feature-icon:not(.emoji) {
-  transform: scale(1.1) rotate(5deg);
-}
-
-/* Ensure emojis don't animate */
 .feature-icon.emoji {
   animation: none !important;
   transform: none !important;
 }
 
-.card-modern:hover .feature-icon.emoji {
-  transform: none !important;
-}
-
-.cta-arrow {
-  @apply transition-transform duration-300;
-}
-
-.btn-primary:hover .cta-arrow,
-.btn-secondary:hover .cta-arrow {
-  transform: translateX(4px);
-}
-
-.step-number {
-  @apply transition-transform duration-300;
-}
-.step-number:hover {
-  transform: scale(1.1);
-}
-
-.faq-chevron:hover {
-  transform: scale(1.1);
-}
-
+/* Mobile-first: No animations for better performance */
+.cta-arrow,
+.step-number,
+.faq-chevron,
 .mobile-tap-feedback {
-  @apply transition-transform duration-100;
+  /* No transforms for better mobile performance */
 }
 
-.mobile-tap-feedback:active {
-  transform: scale(0.95);
+/* Desktop-only interaction animations */
+@media (min-width: 1024px) {
+  .feature-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .card-modern:hover .feature-icon:not(.emoji) {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .cta-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .btn-primary:hover .cta-arrow,
+  .btn-secondary:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+
+  .step-number {
+    transition: transform 0.3s ease;
+  }
+
+  .step-number:hover {
+    transform: scale(1.1);
+  }
+
+  .faq-chevron {
+    transition: transform 0.3s ease;
+  }
+
+  .faq-chevron:hover {
+    transform: scale(1.1);
+  }
 }
 
-/* Enhanced mobile interactions */
+/* Simplified mobile interactions - removed transforms for better performance */
 @media (max-width: 768px) {
-  .card-modern:active {
-    transform: scale(0.98);
-  }
-
-  /* Dark mode mobile tap feedback with subtle glow */
-  .dark .card-modern:active {
-    transform: scale(0.98);
-    box-shadow:
-      0 0 0 1px rgba(99, 102, 241, 0.2),
-      0 0 10px rgba(99, 102, 241, 0.3),
-      0 10px 20px -5px rgba(0, 0, 0, 0.4);
-  }
-
-  .btn-primary:active,
-  .btn-secondary:active {
-    transform: scale(0.96);
-  }
-
-  /* Ensure button text remains visible on mobile */
+  /* Removed all transform-based tap feedback for mobile performance */
   .btn-primary:active,
   .btn-secondary:active {
     color: white;

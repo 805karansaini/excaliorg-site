@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useState, useMemo, useCallback, type ReactNode } from 'react'
 import { ThemeContext, type Theme } from './theme'
 
 interface ThemeProviderProps {
@@ -22,9 +22,14 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     })
 
     useEffect(() => {
-        // Apply theme to document element
-        document.documentElement.classList.remove('light', 'dark')
-        document.documentElement.classList.add(theme)
+        // Apply theme to document element with performance optimization
+        const root = document.documentElement
+        
+        // Use requestAnimationFrame for smoother DOM updates on mobile
+        requestAnimationFrame(() => {
+            root.classList.remove('light', 'dark')
+            root.classList.add(theme)
+        })
 
         // Store theme preference
         localStorage.setItem('excali-organizer-theme', theme)
@@ -45,15 +50,15 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
         return () => mediaQuery.removeEventListener('change', handleChange)
     }, [])
 
-    const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light')
-    }
+    const toggleTheme = useCallback(() => {
+        setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light')
+    }, [])
 
-    const value = {
+    const value = useMemo(() => ({
         theme,
         setTheme,
         toggleTheme,
-    }
+    }), [theme, toggleTheme])
 
     return (
         <ThemeContext.Provider value={value}>

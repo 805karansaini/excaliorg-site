@@ -15,7 +15,7 @@ export const PrivacyPolicy = () => {
   }, []);
 
   return (
-    <div className="min-h-screen transition-colors duration-300" style={{ background: 'var(--color-background)' }}>
+    <div className="min-h-screen" style={{ background: 'var(--color-background)' }}>
       <HeaderBar />
 
       {/* Main Content */}
@@ -25,9 +25,9 @@ export const PrivacyPolicy = () => {
           <div className="mb-8">
             <Link
               to="/"
-              className="inline-flex items-center text-body hover:text-primary transition-colors duration-300 group"
+              className="inline-flex items-center text-body hover:text-primary group"
             >
-              <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
+              <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Home
             </Link>
           </div>

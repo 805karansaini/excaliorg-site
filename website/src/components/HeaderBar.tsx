@@ -92,7 +92,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
         className={`
           fixed w-full top-0 z-50
           glass-header
-          transition-all duration-300
+          lg:transition-all lg:duration-300
           ${className}
         `}
       >
@@ -103,7 +103,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
               className="
                 flex items-center gap-3
                 group cursor-pointer
-                transition-all duration-300
+                lg:transition-all lg:duration-300
               "
               onClick={handleLogoClick}
             >
@@ -118,18 +118,19 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                     className="w-8 h-8"
                   />
                 </picture>
+                {/* Desktop-only hover glow effect */}
                 <div className="
                   absolute inset-0
                   bg-primary-600/20 dark:bg-primary-400/20
                   rounded-full blur-xl
                   opacity-0 group-hover:opacity-100
-                  transition-all duration-300
+                  hidden lg:block lg:transition-all lg:duration-300
                 " />
               </div>
               <span className="
                 text-xl font-bold
                 gradient-text-static
-                transition-all duration-300
+                lg:transition-all lg:duration-300
               ">
                 Excali Organizer
               </span>
@@ -143,8 +144,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                   onClick={() => handleNavClick(item.href)}
                   className="
                     relative group
-                    transition-all duration-300
                     font-medium
+                    lg:transition-all lg:duration-300
                   "
                   style={{
                     color: 'var(--color-text-secondary)'
@@ -157,11 +158,12 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                   }}
                 >
                   {item.name}
+                  {/* Desktop-only animated underline */}
                   <span
                     className="
                       absolute -bottom-1 left-0
                       w-0 h-0.5
-                      transition-all duration-300
+                      hidden lg:block lg:transition-all lg:duration-300
                       group-hover:w-full
                     "
                     style={{
@@ -185,8 +187,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                 aria-label="Toggle theme"
               >
                 <div className="relative w-5 h-5">
-                  <Sun className={`absolute inset-0 w-5 h-5 text-yellow-500 transition-all duration-300 ${theme === 'light' ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0'}`} />
-                  <Moon className={`absolute inset-0 w-5 h-5 text-blue-400 transition-all duration-300 ${theme === 'dark' ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-0 opacity-0'}`} />
+                  <Sun className={`absolute inset-0 w-5 h-5 text-yellow-500 ${theme === 'light' ? 'opacity-100' : 'opacity-0'}`} />
+                  <Moon className={`absolute inset-0 w-5 h-5 text-blue-400 ${theme === 'dark' ? 'opacity-100' : 'opacity-0'}`} />
                 </div>
               </button>
 
@@ -197,9 +199,9 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                   className="flex items-center btn-primary group px-4 py-2 text-sm"
                   style={{ transformOrigin: 'center center' }}
                 >
-                  <Download className="w-3 h-3 mr-1 group-hover:animate-bounce" />
+                  <Download className="w-3 h-3 mr-1 lg:group-hover:animate-bounce" />
                   <span className="relative z-10">Add to Browser</span>
-                  <ArrowRight className="w-3 h-3 ml-1 icon transition-transform duration-300" />
+                  <ArrowRight className="w-3 h-3 ml-1 icon lg:transition-transform lg:duration-300" />
                 </button>
               )}
 
@@ -225,8 +227,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
         </div>
       </header>
 
-      {/* Mobile Menu - Positioned absolutely to avoid header container constraints */}
-      <div className={`lg:hidden fixed top-18 left-0 right-0 z-40 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
+      {/* Mobile Menu - Optimized for performance */}
+      <div className={`lg:hidden fixed top-18 left-0 right-0 z-40 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}>
         <div className={`mx-4 mt-2 rounded-lg shadow-xl border ${theme === 'light'
           ? 'bg-white border-gray-200'
@@ -237,7 +239,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
               <button
                 key={item.name}
                 onClick={() => handleNavClick(item.href)}
-                className={`block w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${theme === 'light'
+                className={`block w-full text-left px-4 py-3 rounded-lg ${theme === 'light'
                   ? 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
                   : 'text-gray-300 hover:text-indigo-400 hover:bg-gray-700'
                   }`}
@@ -251,9 +253,9 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
                 onClick={handleCTAClick}
                 className="w-full btn-primary group py-3 text-sm"
               >
-                <Download className="w-4 h-4 mr-2 group-hover:animate-bounce" />
+                <Download className="w-4 h-4 mr-2 lg:group-hover:animate-bounce" />
                 <span>Add to Browser</span>
-                <ArrowRight className="w-4 h-4 ml-2 icon transition-transform duration-300" />
+                <ArrowRight className="w-4 h-4 ml-2 icon lg:transition-transform lg:duration-300" />
               </button>
             </div>
           </div>
