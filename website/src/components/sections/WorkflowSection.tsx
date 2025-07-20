@@ -26,16 +26,70 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
             Get Started in{' '}
             <span className="gradient-text-static">3 Simple Steps</span>
           </h2>
-          <p className="text-body-large max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
+          <p className="hero-subtitle mb-12 animate-fade-in-up animate-delay-100">
             No account required - works immediately after installation
           </p>
         </div>
 
         {/* Installation and Usage Steps */}
         <div className="max-w-5xl mx-auto mb-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Mobile: Horizontal scroll */}
+          <div className="md:hidden">
+            <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide h-80">
 
-            {/* Step 1: Install */}
+              {/* Mobile horizontal scroll items */}
+              <div className="flex-none w-80 h-full snap-start">
+                <div className="animate-fade-in-up animate-delay-200 h-full">
+                  <div className="card-modern p-6 h-full text-center">
+                    <div className="mb-6">
+                      <div className="w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-xl step-number mx-auto mb-4" style={{ backgroundColor: 'var(--color-primary)' }}>
+                        1
+                      </div>
+                      <h3 className="text-2xl font-bold mb-3">Install Extension</h3>
+                      <p className="text-body-large text-gray-600 dark:text-gray-400">
+                        Get Excali Organizer from the Chrome Web Store with just one click. No registration required.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex-none w-80 h-full snap-start">
+                <div className="animate-fade-in-up animate-delay-300 h-full">
+                  <div className="card-modern p-6 h-full text-center">
+                    <div className="mb-6">
+                      <div className="w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-xl step-number mx-auto mb-4" style={{ backgroundColor: 'var(--color-primary)' }}>
+                        2
+                      </div>
+                      <h3 className="text-2xl font-bold mb-3">Visit Excalidraw</h3>
+                      <p className="text-body-large text-gray-600 dark:text-gray-400">
+                        Open excalidraw.com and watch the organization panel appear seamlessly in your interface.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex-none w-80 h-full snap-start">
+                <div className="animate-fade-in-up animate-delay-400 h-full">
+                  <div className="card-modern p-6 h-full text-center">
+                    <div className="mb-6">
+                      <div className="w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-xl step-number mx-auto mb-4" style={{ backgroundColor: 'var(--color-primary)' }}>
+                        3
+                      </div>
+                      <h3 className="text-2xl font-bold mb-3">Start Organizing</h3>
+                      <p className="text-body-large text-gray-600 dark:text-gray-400">
+                        Create unlimited projects, organize with custom colors, and find any canvas instantly with powerful search.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop: Grid layout */}
+          <div className="hidden md:grid md:grid-cols-3 gap-8">
             <div className="animate-fade-in-up animate-delay-200">
               <div className="card-modern p-6 h-full text-center">
                 <div className="mb-6">
@@ -50,7 +104,6 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
               </div>
             </div>
 
-            {/* Step 2: Visit */}
             <div className="animate-fade-in-up animate-delay-300">
               <div className="card-modern p-6 h-full text-center">
                 <div className="mb-6">
@@ -65,7 +118,6 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
               </div>
             </div>
 
-            {/* Step 3: Start Organizing */}
             <div className="animate-fade-in-up animate-delay-400">
               <div className="card-modern p-6 h-full text-center">
                 <div className="mb-6">
@@ -79,7 +131,6 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -103,7 +154,7 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
               Your Creative Workflow?
             </h3>
             <p className="text-body-large mb-8 max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
-              Join thousands of creators who've already upgraded their Excalidraw experience.
+              Take your Excalidraw experience to the next level with powerful tools creators are loving.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-6 mb-12">
@@ -119,21 +170,6 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
-              <div className="text-center">
-                <div className="text-2xl font-bold mb-2 text-heading-3">Unlimited</div>
-                <div className="text-body">Canvases supported</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold mb-2 text-heading-3">100%</div>
-                <div className="text-body">Free & Open Source</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold mb-2 text-heading-3">Chrome</div>
-                <div className="text-body">+ All Chromium browsers</div>
-              </div>
             </div>
           </div>
         </div>

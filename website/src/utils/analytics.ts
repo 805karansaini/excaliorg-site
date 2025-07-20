@@ -93,24 +93,6 @@ export const trackScrollDepth = (percentage: number) => {
   trackEvent('scroll_depth', 'engagement', `${percentage}%`, percentage);
 };
 
-// Throttle feature card hover tracking
-const hoverTrackingCache = new Map<string, number>();
-const HOVER_THROTTLE_TIME = 5000; // 5 seconds
-
-/**
- * Track feature card hover interactions - Throttled for performance
- * @param featureName - Name of the feature card that was hovered
- */
-export const trackFeatureCardHover = (featureName: string) => {
-  const now = Date.now();
-  const lastTracked = hoverTrackingCache.get(featureName);
-  
-  // Only track if enough time has passed since last tracking for this feature
-  if (!lastTracked || now - lastTracked > HOVER_THROTTLE_TIME) {
-    hoverTrackingCache.set(featureName, now);
-    trackEvent('feature_card_hover', 'engagement', featureName);
-  }
-};
 
 /**
  * Track section visibility (when user scrolls to a section)
@@ -120,46 +102,9 @@ export const trackSectionView = (sectionName: string) => {
   trackEvent('section_view', 'engagement', sectionName);
 };
 
-/**
- * Track user engagement metrics
- * @param metric - The engagement metric to track
- * @param value - The value of the metric
- * @param context - Additional context for the metric
- */
-export const trackEngagement = (metric: string, value: number, context?: string) => {
-  trackEvent('engagement_metric', 'user_behavior', `${metric}${context ? ` - ${context}` : ''}`, value);
-};
 
-/**
- * Track performance metrics
- * @param metric - The performance metric name
- * @param value - The metric value in milliseconds
- * @param context - Additional context
- */
-export const trackPerformance = (metric: string, value: number, context?: string) => {
-  trackEvent('performance_metric', 'technical', `${metric}${context ? ` - ${context}` : ''}`, value);
-};
 
-/**
- * Track user journey milestones
- * @param milestone - The milestone reached
- * @param timeToReach - Time to reach milestone in seconds
- * @param context - Additional context
- */
-export const trackJourneyMilestone = (milestone: string, timeToReach?: number, context?: string) => {
-  trackEvent('journey_milestone', 'user_flow', `${milestone}${context ? ` - ${context}` : ''}`, timeToReach);
-};
 
-/**
- * Track A/B test interactions
- * @param testId - The A/B test identifier
- * @param variantId - The variant the user is seeing
- * @param interaction - The interaction type
- * @param value - Optional numeric value
- */
-export const trackABTestInteraction = (testId: string, variantId: string, interaction: string, value?: number) => {
-  trackEvent('ab_test_interaction', 'experimentation', `${testId}_${variantId}_${interaction}`, value);
-};
 
 /**
  * Track conversion funnel steps
@@ -171,15 +116,6 @@ export const trackFunnelStep = (step: string, stepNumber: number, context?: stri
   trackEvent('funnel_step', 'conversion', `${stepNumber}_${step}${context ? ` - ${context}` : ''}`, stepNumber);
 };
 
-/**
- * Track error events
- * @param errorType - The type of error
- * @param errorMessage - The error message or description
- * @param context - Additional context about where the error occurred
- */
-export const trackError = (errorType: string, errorMessage: string, context?: string) => {
-  trackEvent('error', 'technical', `${errorType}: ${errorMessage}${context ? ` - ${context}` : ''}`);
-};
 
 /**
  * Track user preferences
@@ -201,14 +137,6 @@ export const trackFeatureUsage = (featureName: string, action: string, context?:
   trackEvent('feature_usage', 'engagement', `${featureName}_${action}${context ? ` - ${context}` : ''}`);
 };
 
-/**
- * Track mobile-specific interactions
- * @param interaction - The mobile interaction type
- * @param context - Additional context
- */
-export const trackMobileInteraction = (interaction: string, context?: string) => {
-  trackEvent('mobile_interaction', 'mobile', `${interaction}${context ? ` - ${context}` : ''}`);
-};
 
 /**
  * Track accessibility interactions
@@ -253,36 +181,13 @@ export const trackSessionInfo = (sessionData: {
   });
 };
 
-/**
- * Track page performance metrics
- * @param metrics - Performance metrics to track
- */
-export const trackPagePerformance = (metrics: {
-  loadTime: number;
-  domContentLoaded: number;
-  firstPaint: number;
-  firstContentfulPaint: number;
-  largestContentfulPaint?: number;
-  cumulativeLayoutShift?: number;
-  firstInputDelay?: number;
-}) => {
-  trackCustomEvent('page_performance', {
-    load_time: metrics.loadTime,
-    dom_content_loaded: metrics.domContentLoaded,
-    first_paint: metrics.firstPaint,
-    first_contentful_paint: metrics.firstContentfulPaint,
-    largest_contentful_paint: metrics.largestContentfulPaint,
-    cumulative_layout_shift: metrics.cumulativeLayoutShift,
-    first_input_delay: metrics.firstInputDelay
-  });
-};
 
 /**
  * Initialize enhanced analytics tracking
  */
 export const initializeAnalytics = () => {
   // Track session start
-  const sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  const sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
   const sessionData = {
     sessionId,
     startTime: new Date(),
@@ -291,32 +196,7 @@ export const initializeAnalytics = () => {
     viewport: `${window.innerWidth}x${window.innerHeight}`,
     referrer: document.referrer
   };
-  
+
   trackSessionInfo(sessionData);
-  
-  // Track page performance when available
-  if ('performance' in window) {
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-        const paint = performance.getEntriesByType('paint');
-        
-        const metrics = {
-          loadTime: navigation.loadEventEnd - navigation.loadEventStart,
-          domContentLoaded: navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
-          firstPaint: paint.find(p => p.name === 'first-paint')?.startTime || 0,
-          firstContentfulPaint: paint.find(p => p.name === 'first-contentful-paint')?.startTime || 0
-        };
-        
-        trackPagePerformance(metrics);
-      }, 1000);
-    });
-  }
-  
-  // Initialize performance monitoring
-  if (typeof window !== 'undefined') {
-    import('./performance').then(({ initializePerformanceMonitoring }) => {
-      initializePerformanceMonitoring();
-    });
-  }
+
 };

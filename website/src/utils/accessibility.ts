@@ -1,5 +1,5 @@
 // Comprehensive accessibility utilities and audit tools
-import { trackAccessibilityInteraction, trackError } from './analytics';
+import { trackAccessibilityInteraction } from './analytics';
 
 export interface AccessibilityConfig {
   enforceAria: boolean;
@@ -785,7 +785,8 @@ export class AccessibilityManager {
       console.warn(`[A11Y ${issue.wcagLevel}] ${issue.message}`, issue.element)
     }
     
-    trackError('accessibility_issue', issue.message, `${issue.category} - ${issue.wcagLevel}`);
+    // Log accessibility issues for debugging
+    console.warn(`Accessibility issue: ${issue.message} (${issue.category} - ${issue.wcagLevel})`);
   }
 
   /**

@@ -1,5 +1,6 @@
 import React from 'react'
 import { HeaderBar } from '../components/HeaderBar'
+import { ScrollToTop } from '../components/ScrollToTop'
 import { trackCTAClick, trackStoreRedirect } from '../utils/analytics'
 import { useScrollTracking } from '../hooks/useScrollTracking'
 import { privacyManager } from '../utils/privacy'
@@ -48,7 +49,7 @@ export const Home = () => {
 
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+    <div className="min-h-screen" style={{ background: 'var(--color-background)' }}>
       {/* Modern Header with Glassmorphism */}
       <HeaderBar />
 
@@ -72,6 +73,9 @@ export const Home = () => {
 
       {/* Footer */}
       <FooterSection onCTAClick={handleCTAClick} />
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
 
     </div>
   )
