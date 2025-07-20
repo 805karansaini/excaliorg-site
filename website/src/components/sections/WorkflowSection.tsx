@@ -35,7 +35,7 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
         <div className="max-w-5xl mx-auto mb-16">
           {/* Mobile: Horizontal scroll */}
           <div className="md:hidden">
-            <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide h-64">
+            <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide h-80">
 
               {/* Mobile horizontal scroll items */}
               <div className="flex-none w-80 h-full snap-start">
