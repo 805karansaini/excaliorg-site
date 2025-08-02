@@ -41,13 +41,13 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
           </a>
         </li>
         <li>
-          <a href="https://github.com/805karansaini/issues" target="_blank" rel="noopener noreferrer" className="animated-link">
+          <a href="https://github.com/805karansaini/excali-org/issues" target="_blank" rel="noopener noreferrer" className="animated-link">
             Bug Reports
             <span></span>
           </a>
         </li>
         <li>
-          <a href="https://github.com/805karansaini/issues" target="_blank" rel="noopener noreferrer" className="animated-link">
+          <a href="https://github.com/805karansaini/excali-org/issues" target="_blank" rel="noopener noreferrer" className="animated-link">
             Feature Requests
             <span></span>
           </a>
