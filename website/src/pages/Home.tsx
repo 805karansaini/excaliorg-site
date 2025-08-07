@@ -2,6 +2,7 @@ import React from 'react'
 import { HeaderBar } from '../components/HeaderBar'
 import { ScrollToTop } from '../components/ScrollToTop'
 import { trackCTAClick, trackStoreRedirect } from '../utils/analytics'
+import { openChromeWebStore } from '../utils/links'
 import { useScrollTracking } from '../hooks/useScrollTracking'
 import { privacyManager } from '../utils/privacy'
 import {
@@ -43,8 +44,8 @@ export const Home = () => {
   const handleCTAClick = (buttonText: string, location: string) => {
     trackCTAClick(buttonText, location)
     trackStoreRedirect(location)
-    // Open download page in new tab
-    window.open('https://excali.org', '_blank', 'noopener,noreferrer')
+    // Open Chrome Web Store in new tab
+    openChromeWebStore()
   }
 
 

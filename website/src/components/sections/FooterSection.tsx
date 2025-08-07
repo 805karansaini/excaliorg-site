@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { trackCTAClick, trackStoreRedirect } from '../../utils/analytics'
+import { openChromeWebStore } from '../../utils/links'
 
 interface FooterSectionProps {
   onCTAClick?: (buttonText: string, location: string) => void
@@ -12,8 +13,8 @@ export const FooterSection = ({ onCTAClick }: FooterSectionProps) => {
     if (onCTAClick) {
       onCTAClick(buttonText, location)
     } else {
-      // Default behavior - open download page in new tab
-      window.open('https://excali.org', '_blank', 'noopener,noreferrer')
+      // Default behavior - open Chrome Web Store in new tab
+      openChromeWebStore()
     }
   }
 
