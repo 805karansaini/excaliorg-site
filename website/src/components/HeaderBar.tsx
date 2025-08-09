@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { Moon, Sun, Menu, X, Download, ArrowRight } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 import { trackCTAClick, trackStoreRedirect, trackThemeToggle } from '../utils/analytics'
+import { openChromeWebStore } from '../utils/links'
 
 interface HeaderBarProps {
   className?: string
@@ -50,8 +51,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ className = '' }) => {
   const handleCTAClick = () => {
     trackCTAClick('Add to Browser', 'header_bar')
     trackStoreRedirect('header_bar')
-    // Open download page in new tab
-    window.open('https://excali.org', '_blank', 'noopener,noreferrer')
+    // Open Chrome Web Store in new tab
+    openChromeWebStore()
   }
 
   const handleLogoClick = () => {

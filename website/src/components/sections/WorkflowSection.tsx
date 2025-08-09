@@ -1,4 +1,5 @@
 import { trackCTAClick, trackStoreRedirect } from '../../utils/analytics'
+import { openChromeWebStore } from '../../utils/links'
 
 interface WorkflowSectionProps {
   onCTAClick?: (buttonText: string, location: string) => void
@@ -11,8 +12,8 @@ export const WorkflowSection = ({ onCTAClick }: WorkflowSectionProps) => {
     if (onCTAClick) {
       onCTAClick(buttonText, location)
     } else {
-      // Default behavior - open download page in new tab
-      window.open('https://excali.org', '_blank', 'noopener,noreferrer')
+      // Default behavior - open Chrome Web Store in new tab
+      openChromeWebStore()
     }
   }
 
